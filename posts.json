@@ -1,0 +1,363 @@
+{
+  "categories": [
+    "ai-native"
+  ],
+  "posts": [
+    {
+      "postId": 1,
+      "id": "lesson-01",
+      "title": "이 캐릭터는 기억이 없다",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "이 캐릭터는 기억이 없다",
+      "filename": "posts/1/lesson-01.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-01.html",
+      "originalFilename": "lesson_01.html",
+      "fit": "native"
+    },
+    {
+      "postId": 2,
+      "id": "lesson-02",
+      "title": "AI는 세상을 토큰과 좌표로 본다",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "AI는 세상을 토큰과 좌표로 본다",
+      "filename": "posts/2/lesson-02.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-02.html",
+      "originalFilename": "lesson_02.html",
+      "fit": "native"
+    },
+    {
+      "postId": 3,
+      "id": "lesson-03",
+      "title": "그럴듯함의 함정",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "그럴듯함의 함정",
+      "filename": "posts/3/lesson-03.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-03.html",
+      "originalFilename": "lesson_03.html",
+      "fit": "native"
+    },
+    {
+      "postId": 4,
+      "id": "lesson-04",
+      "title": "보따리는 공짜가 아니다 — 어텐션 n²와 KV 캐시",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "보따리는 공짜가 아니다",
+      "filename": "posts/4/lesson-04.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-04.html",
+      "originalFilename": "lesson_04.html",
+      "fit": "native"
+    },
+    {
+      "postId": 5,
+      "id": "lesson-05",
+      "title": "보따리가 무거우면 둔해진다 — Context Rot",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "보따리가 무거우면 둔해진다",
+      "filename": "posts/5/lesson-05.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-05.html",
+      "originalFilename": "lesson_05.html",
+      "fit": "native"
+    },
+    {
+      "postId": 6,
+      "id": "lesson-06",
+      "title": "보따리 안에는 무엇이 들어가나 — 컨텍스트 해부학",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "보따리 안에는 무엇이 들어가나",
+      "filename": "posts/6/lesson-06.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-06.html",
+      "originalFilename": "lesson_06.html",
+      "fit": "native"
+    },
+    {
+      "postId": 7,
+      "id": "lesson-07",
+      "title": "보따리 청소에는 두 개의 층이 있다",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "보따리 청소에는 두 개의 층이 있다",
+      "filename": "posts/7/lesson-07.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-07.html",
+      "originalFilename": "lesson_07.html",
+      "fit": "native"
+    },
+    {
+      "postId": 8,
+      "id": "lesson-08",
+      "title": "버리지 말고 빼두기",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "버리지 말고 빼두기",
+      "filename": "posts/8/lesson-08.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-08.html",
+      "originalFilename": "lesson_08.html",
+      "fit": "native"
+    },
+    {
+      "postId": 9,
+      "id": "lesson-09",
+      "title": "미리 넣을까, 그때그때 가져올까",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "미리 넣을까, 그때그때 가져올까",
+      "filename": "posts/9/lesson-09.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-09.html",
+      "originalFilename": "lesson_09.html",
+      "fit": "native"
+    },
+    {
+      "postId": 10,
+      "id": "lesson-10",
+      "title": "에이전트란 무엇인가",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "에이전트란 무엇인가",
+      "filename": "posts/10/lesson-10.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-10.html",
+      "originalFilename": "lesson_10.html",
+      "fit": "native"
+    },
+    {
+      "postId": 11,
+      "id": "lesson-11",
+      "title": "도구와 MCP",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "도구와 MCP",
+      "filename": "posts/11/lesson-11.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-11.html",
+      "originalFilename": "lesson_11.html",
+      "fit": "native"
+    },
+    {
+      "postId": 12,
+      "id": "lesson-12",
+      "title": "왜 캐릭터를 나누는가",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "왜 캐릭터를 나누는가",
+      "filename": "posts/12/lesson-12.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-12.html",
+      "originalFilename": "lesson_12.html",
+      "fit": "native"
+    },
+    {
+      "postId": 13,
+      "id": "lesson-13",
+      "title": "스킬은 아이템이다",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "스킬은 아이템이다",
+      "filename": "posts/13/lesson-13.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-13.html",
+      "originalFilename": "lesson_13.html",
+      "fit": "native"
+    },
+    {
+      "postId": 14,
+      "id": "lesson-14",
+      "title": "부대 편성의 기술",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "부대 편성의 기술",
+      "filename": "posts/14/lesson-14.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-14.html",
+      "originalFilename": "lesson_14.html",
+      "fit": "native"
+    },
+    {
+      "postId": 15,
+      "id": "lesson-15",
+      "title": "회귀와 피드백 루프",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "회귀와 피드백 루프",
+      "filename": "posts/15/lesson-15.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-15.html",
+      "originalFilename": "lesson_15.html",
+      "fit": "native"
+    },
+    {
+      "postId": 16,
+      "id": "lesson-16",
+      "title": "잘하는지 어떻게 아는가",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "잘하는지 어떻게 아는가",
+      "filename": "posts/16/lesson-16.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/lesson-16.html",
+      "originalFilename": "lesson_16.html",
+      "fit": "native"
+    },
+    {
+      "postId": 17,
+      "id": "simulator-02",
+      "title": "시뮬레이터 · 2강 — 토큰과 의미 좌표",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "AI는 토큰과 좌표로 본다",
+      "filename": "posts/17/simulator-02.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/simulator-02.html",
+      "originalFilename": "simulator_02.html",
+      "fit": "native"
+    },
+    {
+      "postId": 18,
+      "id": "intro",
+      "title": "메타코딩 「에이전트 개념서」 · 전체 목차",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "에이전트 개념서",
+      "filename": "posts/18/intro.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/intro.html",
+      "originalFilename": "index.html",
+      "fit": "native"
+    },
+    {
+      "postId": 19,
+      "id": "meta-coding-agent-lecture",
+      "title": "메타코딩 \"에이전트 게임 — 컨텍스트를 설계하는 법\" 시리즈 기획서 (v2 전체 재설계)",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": " 작성 기준일: 20260522",
+      "filename": "posts/19/meta-coding-agent-lecture.html",
+      "tags": [],
+      "engine": "md",
+      "themeInjected": false,
+      "sourcePath": "_src/meta-coding-agent-lecture.md",
+      "originalFilename": "메타코딩_에이전트강의_기획서.md"
+    },
+    {
+      "postId": 20,
+      "id": "meta-coding-agent-concept",
+      "title": "메타코딩 「에이전트 개념서」 시리즈 기획서 (v3 · 완전판)",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "에이전트 개념서",
+      "filename": "posts/20/meta-coding-agent-concept.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/meta-coding-agent-concept.html",
+      "originalFilename": "메타코딩_에이전트개념서_기획서.html",
+      "fit": "native"
+    },
+    {
+      "postId": 21,
+      "id": "session-handoff",
+      "title": "세션 핸드오프 (편집기) — 메타코딩 「에이전트 개념서」",
+      "date": "2026-05-26",
+      "categories": [
+        "ai-native"
+      ],
+      "summary": "메타코딩 「에이전트 개념서」",
+      "filename": "posts/21/session-handoff.html",
+      "tags": [],
+      "engine": "html",
+      "themeInjected": true,
+      "sourcePath": "_src/session-handoff.html",
+      "originalFilename": "세션_핸드오프.html",
+      "fit": "native"
+    }
+  ]
+}

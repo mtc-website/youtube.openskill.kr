@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="ko"><head>
+<!-- ======= Open Skill Diary theme adapter (injected) ======= -->
+<style id="osd-theme-adapter">
+  /* Reserve space for the floating bar — adapter does NOT touch the simulator's
+     own max-width / centering. If the simulator has .container { max-width: ...;
+     margin: 0 auto } it stays centered; if it has none, it stays full-width. */
+  body { padding-top: 56px !important; }
+
+  /* Allow page to grow naturally — many simulators set
+     html, body { height:100%; overflow:hidden } to lock viewport. The adapter
+     overrides this so floating bar is reachable via scroll. */
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    overflow-y: auto !important;
+  }
+
+  /* Bidirectional inversion: applied only when the source tone differs from
+     the selected blog theme. If they match, the original colors are kept
+     untouched. The wrapper isolates the filter from the floating bar. */
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] body { background: #f7f8fb !important; }
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] body { background: #0c1220 !important; }
+
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper {
+    filter: invert(0.92) hue-rotate(180deg);
+    min-height: 100vh;
+  }
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper img,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper video,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper canvas,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper img,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper video,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper canvas {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  /* Floating top bar — fixed, very high z-index, sits above wrapper */
+  #osd-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 2147483647;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 16px;
+    background: rgba(15, 22, 36, 0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: #e8eef9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
+                 "Noto Sans KR", sans-serif;
+    font-size: 13px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  html[data-osd-theme="light"] #osd-bar {
+    background: rgba(255,255,255,0.92);
+    border-bottom: 1px solid #e3e8ef;
+    color: #1a2332;
+    box-shadow: 0 1px 3px rgba(20,30,50,0.06), 0 4px 16px rgba(20,30,50,0.04);
+  }
+  #osd-bar a, #osd-bar button {
+    color: inherit; background: transparent; border: 1px solid currentColor;
+    border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    opacity: 0.85; transition: opacity .15s, transform .15s;
+    font-family: inherit;
+  }
+  #osd-bar a:hover, #osd-bar button:hover { opacity: 1; transform: translateY(-1px); }
+  #osd-bar .osd-bar__title { font-weight: 700; letter-spacing: -0.2px; opacity: 0.9;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #osd-bar .osd-bar__actions { display: flex; gap: 8px; flex-shrink: 0; }
+  #osd-bar .osd-bar__brand { font-weight: 700; font-size: 13px; opacity: 0.7; flex-shrink: 0; }
+  @media (max-width: 640px) {
+    #osd-bar { padding: 8px 10px; font-size: 12px; }
+    #osd-bar .osd-bar__title { display: none; }
+  }
+</style>
+<script>
+  (function(){
+    document.documentElement.setAttribute('data-osd-source-theme', 'light');
+    try {
+      var t = localStorage.getItem('blog-theme') || 'dark';
+      document.documentElement.setAttribute('data-osd-theme', t);
+    } catch(e){}
+  })();
+</script>
+<!-- ======= /theme adapter ======= -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>부대 편성의 기술</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<!-- ======= OSD floating bar (injected) ======= -->
+<div id="osd-bar" role="navigation" aria-label="블로그 네비게이션">
+  <a href="../../index.html" class="osd-bar__brand" title="블로그 홈">◆ Diary</a>
+  <div class="osd-bar__title">부대 편성의 기술</div>
+  <div class="osd-bar__actions">
+    <a href="../../index.html">← 목록</a>
+    <button type="button" id="osd-theme-toggle" aria-label="테마 전환">테마</button>
+  </div>
+</div>
+<!-- ======= /OSD floating bar ======= -->
+
+<script>
+  // Wrap body content so the light-mode filter applies only to wrapper, not to floating bar
+  (function(){
+    function wrap(){
+      var bar = document.getElementById('osd-bar');
+      var wrapper = document.createElement('div');
+      wrapper.id = 'osd-content-wrapper';
+      wrapper.style.cssText = 'transition: filter .25s;';
+      var nodes = Array.prototype.slice.call(document.body.childNodes);
+      nodes.forEach(function(n){ if (n === bar) return; wrapper.appendChild(n); });
+      document.body.appendChild(wrapper);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wrap, { once: true });
+    } else { wrap(); }
+  })();
+</script>
+
+<script>
+  (function(){
+    var btn = document.getElementById('osd-theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-osd-theme') || 'dark';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-osd-theme', next);
+      try { localStorage.setItem('blog-theme', next); } catch(e){}
+    });
+  })();
+</script>
+
+<header class="hero"><div class="in"><span class="tag">ACT 4 · 14강</span><h1>부대 편성의 기술</h1><div class="topic">Orchestrator-worker &amp; 병렬</div><div class="msg">의존 없이 분해하면 병목이 사라진다 — 여기서 비로소 병렬이 이득이다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_13.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_15.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>오케스트레이터-워커(orchestrator-worker) 구조가 일을 어떻게 분해·할당·합성하는지 설명할 수 있다.</li>
+<li>'의존 없는 분해'가 왜 병목을 없애는 핵심인지, 의존이 있으면 무엇이 무너지는지 짚어낼 수 있다.</li>
+<li>병렬은 그 자체가 목적이 아니라 12강의 '컨텍스트 분리' 위에 얹는 보너스임을 이해한다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>"에이전트 하나가 느리면, 여러 개 동시에 돌리면 되잖아?" 누구나 처음엔 이렇게 생각한다. 그런데 막상 다섯 개를 띄워 보면 다섯 배 빨라지기는커녕, 서로 같은 파일을 건드리고, 한쪽 결과를 다른 쪽이 기다리고, 결과가 충돌해 오히려 더 느리고 엉망이 되곤 한다.</p>
+<p>왜일까? 일을 '여러 개로 쪼갠 것'과 '서로 독립적으로 쪼갠 것'은 전혀 다르기 때문이다. 의존이 남아 있는 분해는, 겉으로는 병렬이지만 속으로는 한 줄로 줄을 서 있는 것과 같다.</p>
+<p>이 강에서는 여러 에이전트를 '부대'처럼 편성하는 정석 구조와, 병렬이 진짜 이득이 되는 조건을 본다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>(a) 오케스트레이터-워커 구조</h3>
+<p>정석 패턴은 지휘부와 실행부를 나누는 것이다. <strong>오케스트레이터(orchestrator)</strong>가 큰 작업을 받아 <em>분해</em>하고, 각 조각을 <strong>워커(worker)</strong>들에게 <em>할당</em>한다. 워커들은 각자 <strong>독립된 컨텍스트</strong>에서 자기 조각을 병렬로 수행하고, 오케스트레이터가 그 결과를 모아 <em>합성</em>한다. 지휘는 한 명, 실행은 여럿. 본진과 분대의 관계다.</p>
+
+<h3>(b) 의존 없는 분해가 핵심이다</h3>
+<div class="box principle"><span class="lab">핵심</span>
+<p>병렬이 이득이 되는 단 하나의 조건은 <strong>조각들이 서로 의존하지 않는 것</strong>이다. A의 결과가 있어야 B를 시작할 수 있다면, B는 A를 '기다려야' 한다 — 이것이 <strong>병목</strong>이다. 의존이 얽히면 워커들이 서로의 출력을 기다리다 <strong>교착(deadlock)</strong>에 빠지거나, 같은 상태를 동시에 건드려 <strong>컨텍스트 오염</strong>이 생긴다.</p>
+<p>그래서 좋은 분해는 "여러 개로 나누기"가 아니라 <strong>"서로 기다릴 필요가 없게 나누기"</strong>다. 분해의 품질은 조각의 개수가 아니라 조각 사이 의존의 적음으로 평가된다.</p>
+</div>
+
+<h3>(c) 효과의 크기 — 멀티에이전트 리서치</h3>
+<p>Anthropic의 멀티에이전트 리서치 시스템 보고에 따르면, 폭넓은 탐색이 필요한 복잡한 작업에서 이 구조는 단일 에이전트 대비 <strong>90% 이상의 성능 향상</strong>을 보였고, 잘 분해된 경우 소요 시간을 <strong>최대 90%까지 단축</strong>했다. 핵심은 워커들이 서로 다른 방향을 동시에 탐색하면서도 컨텍스트가 섞이지 않았다는 점이다.</p>
+
+<h3>(d) 병렬은 보너스, 분리가 먼저다</h3>
+<p>오해하지 말자. 병렬 자체가 비결인 것이 아니다. 12강에서 본 <strong>컨텍스트 분리</strong>가 먼저 갖춰져야 하고, 병렬은 그 위에 얹는 <em>보너스</em>다. 분리가 깔끔하면 병렬은 자연히 따라오고, 분리가 안 된 채 병렬만 하면 오염만 늘어난다. 그래서 디자인 포인트는 단 하나 — <strong>공유 상태를 최소화하라.</strong></p>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>본진(오케스트레이터)이 여러 분대에게 서로 다른 지역의 정찰을 동시에 시킨다고 하자. 북쪽 분대, 동쪽 분대, 남쪽 분대가 각자 독립된 시야로 동시에 움직이면, 지도는 순식간에 밝혀진다. 누구도 남을 기다리지 않기 때문이다 — 이것이 의존 없는 병렬이다.</p>
+<p>반대로 "동쪽 분대가 길을 다 뚫어 줘야 북쪽 분대가 지나갈 수 있다"면? 북쪽은 출발도 못 하고 한 줄로 줄을 서서 대기한다. 분대가 셋이어도 실제 진행은 하나씩 차례대로다. 의존이 병렬의 이득을 통째로 잡아먹는 것이다.</p>
+</div></section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"병렬로 돌리면 무조건 빨라진다."</td><td class="o">조각들 사이에 <strong>의존</strong>이 남아 있으면 결국 줄을 서서 기다린다 — 병목은 그대로다.</td></tr>
+<tr><td class="x">"에이전트는 많을수록 좋다."</td><td class="o">개수가 늘수록 <strong>조율 비용</strong>과 <strong>컨텍스트 오염</strong>도 커진다. 분해의 질이 개수보다 중요하다.</td></tr>
+<tr><td class="x">"병렬화가 성능의 핵심이다."</td><td class="o"><strong>컨텍스트 분리가 먼저</strong>이고, 병렬은 그 위에 얹는 보너스다. 공유 상태 최소화가 디자인 포인트다.</td></tr>
+</tbody></table></section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>한 작업을 4개의 조각으로 나눈다고 하자. 한 조각당 처리에 10분이 걸린다.</p>
+<p><strong>직렬:</strong> 하나 끝나야 다음을 시작한다. 10 + 10 + 10 + 10 = <strong>40분.</strong></p>
+<p><strong>의존 없는 병렬:</strong> 4개 워커가 동시에 자기 조각을 수행한다. 가장 느린 하나만 기다리면 되므로 약 <strong>10분</strong>(+합성 약간).</p>
+<p><strong>의존이 있는 '가짜 병렬':</strong> 2번이 1번 결과를, 3번이 2번 결과를 필요로 한다면? 1→2→3은 줄을 서야 하고, 의존 없는 4번만 따로 돈다. 실제론 30분에 가깝게 늘어진다. 워커를 4개나 띄웠는데도 말이다.</p>
+<p>같은 4분할인데 결과는 40 / 10 / 30분으로 갈린다. 차이를 만든 것은 워커의 수가 아니라 <em>의존의 유무</em>다.</p>
+</div></section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>상단에 하나의 작업 블록이 있고, 가운데 오케스트레이터 노드가 이를 4개 조각으로 쪼개는 애니메이션. 화면은 두 레인으로 나뉜다.</p>
+<p><strong>위 레인(직렬):</strong> 조각들이 한 줄로 늘어서 하나씩 순서대로 처리된다. 스톱워치가 40분까지 째깍째깍 올라간다.</p>
+<p><strong>아래 레인(병렬):</strong> 의존 토글이 <em>꺼짐</em>일 때, 4개 조각이 동시에 자기 차선에서 진행되고 스톱워치가 10분에서 멈춘다. 의존 토글을 <em>켜면</em>, 조각들 사이에 점선 화살표(의존)가 생기며 일부 워커가 '대기' 상태로 멈춰 서고 스톱워치가 다시 30분 쪽으로 늘어난다.</p>
+<p>하단 게이지에 '공유 상태 점유율'이 있어, 의존을 켤수록 충돌(빨간 점멸)이 늘어나는 것을 보여 준다 — 분리가 깨질 때 무슨 일이 나는지 직관적으로 전달.</p>
+</div></section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>오케스트레이터가 분해·할당·합성하고 워커가 독립 컨텍스트에서 병렬 수행한다. 그러나 이득의 조건은 단 하나 — <strong>의존을 끊는 것</strong>이다. 의존이 남으면 가짜 병렬이 되어 병목·교착·오염이 생긴다. 병렬은 컨텍스트 분리 위에 얹는 보너스이며, 디자인 포인트는 공유 상태 최소화다.</p>
+<p>다음 편(Act 5) — 그렇게 일을 시켜도 에이전트는 결국 무언가를 깬다. <strong>깨졌을 때 어떻게 되돌리고</strong>, 그 실패를 어떻게 다시 활용하는지 본다.</p>
+</div></section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div><div class="card"><ol class="notes">
+<li>"여러 개 돌리면 빨라지지?"로 훅 — 그런데 안 빨라지는 경험을 환기.</li>
+<li>오케스트레이터-워커 구조를 본진/분대 그림으로: 분해 → 할당 → (병렬 수행) → 합성.</li>
+<li>핵심 강조: '여러 개로 나누기'가 아니라 '서로 기다릴 필요 없게 나누기'.</li>
+<li>의존이 있으면 병목·교착·오염 → 직렬/병렬/가짜병렬 40·10·30분 숫자로 대비.</li>
+<li>멀티에이전트 리서치 수치(90%+ 향상, 최대 90% 시간 단축) 인용.</li>
+<li>병렬은 12강 컨텍스트 분리 위의 보너스 — 공유 상태 최소화로 마무리, 15강 연결.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 14강</footer>
+</div></body></html>

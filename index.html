@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>메타코딩 에이전트 강의</title>
+<meta name="description" content="AI Native 시대의 에이전트 강의 노트" />
+<link rel="stylesheet" href="assets/style.css" />
+<script>(function(){ try { var t = localStorage.getItem('blog-theme') || 'light'; document.documentElement.setAttribute('data-theme', t); } catch(e){} })();</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="./"><span class="logo__sigil">講</span> 메타코딩 에이전트 강의</a>
+    <nav class="topnav">
+      <a href="#syllabus">강의 목차</a>
+      <button id="theme-toggle" class="theme-toggle" type="button">◐</button>
+    </nav>
+  </header>
+
+  <section class="cover">
+    <div class="cover__inner">
+      <p class="cover__eyebrow">LECTURE NOTES</p>
+      <h1 class="cover__title">메타코딩 에이전트 강의</h1>
+      <p class="cover__lede">AI Native 시대의 에이전트 강의 노트</p>
+    </div>
+  </section>
+
+  <main class="syllabus" id="syllabus">
+    <h2 class="syllabus__title">강의 목차</h2>
+    <div id="osd-search" class="osd-search"></div>
+<link rel="stylesheet" href="pagefind/pagefind-ui.css" />
+<script src="pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    new PagefindUI({
+      element: '#osd-search',
+      showSubResults: true,
+      translations: { placeholder: '본문 검색…', clear_search: '지우기', no_results: '결과 없음' }
+    });
+  });
+</script>
+    <div id="lecture-groups"></div>
+  </main>
+
+  <footer class="footer"><span>© 2026 메타코딩 에이전트 강의</span></footer>
+  <script src="assets/script.js"></script>
+</body>
+</html>

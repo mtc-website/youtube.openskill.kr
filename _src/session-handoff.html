@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>세션 핸드오프 (편집기) — 메타코딩 「에이전트 개념서」</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:14px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px 90px;}
+.hero{margin:0 -18px 0;padding:40px 18px 30px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);}
+.hero .in{max-width:880px;margin:0 auto;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(22px,3.6vw,30px);margin:12px 0 8px;font-weight:800;letter-spacing:-.025em;}
+.hero p{margin:0;opacity:.92;font-size:14px;}
+.bar{position:sticky;top:0;z-index:5;background:rgba(247,246,243,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -18px 20px;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+button{font-family:inherit;font-size:13.5px;font-weight:700;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:9px 14px;border-radius:10px;cursor:pointer;transition:.13s;}
+button:hover{border-color:var(--accent2);}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+button.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.spacer{flex:1;}
+.hint{font-size:12px;color:var(--muted);}
+#editor{display:none;}
+#editor.show{display:block;}
+textarea{width:100%;min-height:48vh;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;line-height:1.6;color:var(--ink);background:#fcfcfb;resize:vertical;}
+textarea:focus{outline:none;border-color:var(--accent2);}
+.editnote{font-size:13px;color:var(--muted);background:#eef0ff;border:1px solid #d7d9fb;border-radius:10px;padding:10px 13px;margin:0 0 12px;}
+.editnote b{color:#3f3a86;}
+.content h1{font-size:26px;font-weight:800;margin:6px 0 6px;letter-spacing:-.02em;}
+.content h2{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:28px 0 4px;}
+.content h3{font-size:18px;font-weight:800;margin:18px 0 4px;}
+.content p{margin:9px 0;}
+.content ul{margin:8px 0;padding-left:20px;}
+.content li{margin:5px 0;}
+.content hr{border:none;border-top:1px solid var(--line);margin:18px 0;}
+.content blockquote{margin:10px 0;padding:10px 14px;background:#faf9f6;border-left:4px solid var(--accent2);border-radius:8px;color:#454a60;}
+.content code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;font-family:ui-monospace,monospace;}
+.content strong{font-weight:800;}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1d2030;color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;opacity:0;transition:.25s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px;}
+@media(max-width:560px){.bar button{padding:8px 11px;font-size:13px;}}
+</style></head>
+<body>
+
+<!-- ===== 원천 마크다운(정본). 페이지는 이걸 편집·렌더하고 .md로 내보낸다. ===== -->
+<script type="text/markdown" id="src">
+# 세션 핸드오프 — 메타코딩 「에이전트 개념서」
+
+> **용도:** 새 세션을 열 때 이 문서를 *가장 먼저* 붙여넣어 컨텍스트(보따리)를 시드한다.
+> 사람과 AI가 둘 다 읽을 수 있게 작성했다. (compaction/메모리와 달리 휴대·공유·감사 가능)
+> 최종 갱신: 2026-05-22
+
+---
+
+## 동기화 방식 (single source)
+- 편집은 사람이 보는 페이지(`세션_핸드오프.html`)에서 한다 — 브라우저·휴대폰에서 바로 수정 가능.
+- 단, 고치는 것은 'HTML 태그'가 아니라 '내용(이 마크다운)'이다. 페이지가 마크다운을 편집·렌더하고, 버튼으로 `.md`를 내보낸다.
+- 내보낸 `.md`가 AI에게 주는 원천이자 git 정본이다. (HTML을 손으로 고쳐 MD로 되돌리는 건 손실·취약하니 금지)
+- 흐름: 페이지에서 내용 편집 → MD 내보내기 → AI에 붙여넣기 / git push로 팀 공유.
+
+## 프로젝트 한 줄
+유튜브 채널 **메타코딩**(판서형)의 **"AI 에이전트 개념서"** 강의 시리즈 기획·제작. **개념 전용**(원리만). 실제 구현/도구 데모는 「바이브 코딩」 **자매 시리즈**로 분리.
+
+## 지금까지의 산출물 (outputs 폴더)
+- `메타코딩_에이전트개념서_기획서.md` / `.html` — v3 완전판 기획서(5막 16편)
+- `index.html` — 전체 목차(챕터 카드 → 각 수업 링크)
+- `lesson_01.html` ~ `lesson_16.html` — 챕터별 상세 수업 페이지(이전/다음 네비 포함)
+- `simulator_02.html` — 2강(토큰·임베딩) 인터랙티브 시뮬레이터
+- `메타코딩_에이전트강의_기획서.md` — 게임척추 v2(이전 버전, 참고용)
+
+## 확정된 결정 (decisions)
+- 시리즈 성격: **개념 전용.** 도구 클릭/자동화 구축/디스코드 = 자매 시리즈.
+- 구조: **5막 16편**, 1영상 = 1개념 = 1시뮬레이터, 10~13분.
+- 영상 포맷: 훅 → 판서 → 시뮬레이터(★"개념 비유 — 실제 내부와 다름" 라벨 필수) → 오개념 부수기 → 요약/떡밥.
+- **1·2강 스왑 완료:** 1강 = 무상태 & 보따리, 2강 = 토큰 & 임베딩. (이유: 응집성 — 보따리 그릇을 먼저 보여주고, 토큰은 그 단위로. 반전형 훅이 1강에 적합)
+- 1강 깊이 **트림 완료**(확장성/재현성 디테일 축약, "통제권" thesis 강조).
+- 게임 메타포를 시리즈 척추로. 스킬 = 아이템(공유·동적), 캐릭터 고유능력 = 시스템 프롬프트.
+
+## 열린 결정 (새 세션에서 정할 것)
+- **게임 확정: 스타크래프트 vs 포켓몬 (미정).** 확정 시 메타포 사전 + 12·13강 비유 갱신.
+- 나머지 챕터 시뮬레이터(1, 3~16) 제작 여부.
+- 16편 → 핵심 스파인 12편 타이트 버전으로 줄일지.
+
+## ★ 반드시 지킬 사실 정정 (negative knowledge — 틀리기 쉬운 것)
+- 토큰: "못 늘린다" ✗ → 늘리되 **수확 체감 + 알고리즘 필요**.
+- context rot: "절벽" ✗ → **완만한 그래디언트**.
+- 컨텍스트 정리: "GC" ✗ → **손실 요약/제거, 2층**(KV eviction + compaction).
+- 할루시네이션: "검색 실패" ✗ → **그럴듯함 생성 + 추측 보상(OpenAI 2025) + 작화(confabulation)**.
+- 캐시(KV/prompt): "품질 개선" ✗ → **비용·지연만**.
+- 서브에이전트: "병렬이 1번 목적" ✗ → **컨텍스트 분리가 1번, 병렬은 보너스**.
+- TDD: "절차 강요로 회귀 막힘" ✗ → **절차만은 역효과(TDAD), 핵심은 테스트=source of truth 컨텍스트 + 실패 피드백**.
+
+## 톤·제약
+- 판서형 채널. 시뮬레이터엔 "개념 비유" 라벨 의무.
+- 사실 정확성 최우선(댓글 클레임 방어). 도구 데모는 "(YYYY-MM 기준)" 날짜 박제.
+- 디자인: 보라(#6d5efc) 강조 + Pretendard, 카드/히어로 톤 통일.
+
+## 새 세션 시작 프롬프트 (예시)
+> "메타코딩 에이전트 개념서 시리즈를 이어서 작업할 거야. 아래 핸드오프를 컨텍스트로 삼아줘. 먼저 [게임 확정 / N강 시뮬레이터 제작 / 12편 타이트 버전] 부터 하자."
+> (그리고 이 파일 전체를 붙여넣기)
+</script>
+
+<header class="hero"><div class="in">
+<span class="tag">세션 핸드오프 · 편집기</span>
+<h1>메타코딩 「에이전트 개념서」</h1>
+<p>브라우저(휴대폰 포함)에서 내용을 고치고, MD로 내보내 AI·팀에 넘기세요.</p>
+</div></header>
+
+<div class="wrap">
+<div class="bar">
+  <button id="viewBtn" class="on">👁 보기</button>
+  <button id="editBtn">✏️ 편집</button>
+  <span class="spacer"></span>
+  <button id="copyBtn">📋 MD 복사</button>
+  <button id="dlBtn" class="primary">⬇ MD 내려받기</button>
+  <button id="resetBtn">↺ 원본</button>
+</div>
+
+<div id="viewer" class="content"></div>
+
+<div id="editor">
+  <div class="editnote">✏️ <b>여기서 고치는 건 마크다운(내용)입니다.</b> HTML 태그가 아니라 글만 고치면 돼요. 고치면 자동 저장되고, 위 <b>MD 내려받기/복사</b>로 정본 <code>.md</code>를 빼서 AI에 붙여넣거나 git에 올리세요.</div>
+  <textarea id="ta" spellcheck="false"></textarea>
+</div>
+
+<footer>메타코딩 「에이전트 개념서」 · 세션 핸드오프 편집기 · 원천=마크다운, 이 페이지=편집·렌더·내보내기</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ORIGINAL=document.getElementById('src').textContent.replace(/^\n/,'');
+const KEY='handoff_md_v1';
+let md = load() || ORIGINAL;
+
+function load(){ try{ return localStorage.getItem(KEY); }catch(e){ return null; } }
+function save(v){ try{ localStorage.setItem(KEY,v); }catch(e){} }
+
+/* --- 작은 마크다운 렌더러 (헤딩/볼드/코드/리스트/인용/HR) --- */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function inline(s){
+  return esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>');
+}
+function mdToHtml(src){
+  const lines=src.replace(/\r/g,'').split('\n');
+  let out='', inList=false;
+  const closeList=()=>{ if(inList){ out+='</ul>'; inList=false; } };
+  for(const raw of lines){
+    const line=raw.replace(/\s+$/,'');
+    if(!line.trim()){ closeList(); continue; }
+    if(/^---+$/.test(line.trim())){ closeList(); out+='<hr>'; continue; }
+    let m;
+    if(m=line.match(/^(#{1,6})\s+(.*)$/)){ closeList(); const lv=m[1].length; out+=`<h${lv}>${inline(m[2])}</h${lv}>`; continue; }
+    if(m=line.match(/^>\s?(.*)$/)){ closeList(); out+=`<blockquote>${inline(m[1])}</blockquote>`; continue; }
+    if(m=line.match(/^[-*]\s+(.*)$/)){ if(!inList){ out+='<ul>'; inList=true; } out+=`<li>${inline(m[1])}</li>`; continue; }
+    closeList(); out+=`<p>${inline(line)}</p>`;
+  }
+  closeList();
+  return out;
+}
+
+const viewer=document.getElementById('viewer'), ta=document.getElementById('ta');
+function renderView(){ viewer.innerHTML=mdToHtml(md); }
+ta.value=md; renderView();
+
+/* 보기 / 편집 토글 */
+const viewBtn=document.getElementById('viewBtn'), editBtn=document.getElementById('editBtn'),
+      editor=document.getElementById('editor');
+function mode(edit){
+  editor.classList.toggle('show',edit);
+  viewer.style.display=edit?'none':'block';
+  editBtn.classList.toggle('on',edit);
+  viewBtn.classList.toggle('on',!edit);
+}
+viewBtn.onclick=()=>{ renderView(); mode(false); };
+editBtn.onclick=()=>mode(true);
+
+/* 편집 → 자동 저장 + 라이브 반영 */
+ta.addEventListener('input',()=>{ md=ta.value; save(md); });
+
+/* 내보내기 */
+function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1600); }
+document.getElementById('dlBtn').onclick=()=>{
+  const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='세션_핸드오프.md';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+  toast('세션_핸드오프.md 내려받음');
+};
+document.getElementById('copyBtn').onclick=async()=>{
+  try{ await navigator.clipboard.writeText(md); toast('마크다운 복사됨 — AI에 붙여넣으세요'); }
+  catch(e){ ta.style.display='block'; mode(true); ta.focus(); ta.select(); toast('편집창에서 전체 선택해 복사하세요'); }
+};
+document.getElementById('resetBtn').onclick=()=>{
+  if(confirm('편집 내용을 버리고 원본으로 되돌릴까요?')){ md=ORIGINAL; ta.value=md; save(md); renderView(); toast('원본으로 복원'); }
+};
+</script>
+</body></html>

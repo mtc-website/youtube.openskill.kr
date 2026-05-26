@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>버리지 말고 빼두기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<header class="hero"><div class="in"><span class="tag">ACT 3 · 8강</span><h1>버리지 말고 빼두기</h1><div class="topic">메모리 &amp; 결정 로그 &amp; negative knowledge</div><div class="msg">중요한 건 버리지 말고 보따리 밖(파일)에 빼뒀다 다시 부른다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_07.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_09.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>컨텍스트 밖 외부 메모(NOTES.md, memory tool, to-do 리스트)에 기록했다 다시 불러오는 'structured note-taking' 패턴을 설명할 수 있다.</li>
+<li>결정 로그(ADR, Architecture Decision Record)가 왜 일관성을 지켜 주는지 안다.</li>
+<li>실패한 시도와 그 이유(negative knowledge)도 일급 기록으로 남겨야 같은 삽질을 막을 수 있음을 안다.</li>
+<li>세션이 길어져 새 세션으로 넘길 때, 무엇을(결정·실패·열린질문) 어떤 형식으로(compaction/메모리/결정 로그 md/사이트) 넘길지 고를 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>어제 당신은 에이전트와 한참을 의논해 "이 인증 로직은 라이브러리 X 대신 직접 구현하기로" 결정했다. 라이브러리 X가 우리 요구사항을 못 맞춰서 한참 헤맨 끝에 내린 결론이었다. 그런데 오늘, 컨텍스트가 한 번 압축되고 새 세션이 시작되자 에이전트가 천연덕스럽게 말한다. "인증은 라이브러리 X를 쓰면 간단합니다." 그리고 어제 버렸던 그 길을 다시 걷기 시작한다.</p>
+<p>지난 편에서 봤듯 컨텍스트 청소는 손실적이다. 압축은 효율적이지만, 어제의 결정도 어제의 실패도 함께 흐려진다. 문제는 이런 정보야말로 절대 잃으면 안 되는 것들이라는 점이다.</p>
+<p>해법은 의외로 단순하다. <strong>중요한 건 보따리 안에서 버티게 하지 말고, 보따리 밖에 빼뒀다 필요할 때 다시 부른다.</strong> 이번 편은 그 '빼두기'의 세 가지 형태를 다룬다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>구조화된 메모(structured note-taking) — 밖에 적고 다시 부른다</h3>
+<p>핵심 발상은 컨텍스트 윈도우를 유일한 기억 장치로 쓰지 않는 것이다. 컨텍스트 밖의 파일에 기록해 뒀다가, 필요할 때 그 일부를 다시 불러와 윈도우에 올린다. Claude가 작업을 쪼개 관리하는 <strong>to-do 리스트</strong>, 프로젝트 진행 상황을 적어 두는 <strong>NOTES.md</strong>, 장시간 게임을 플레이하는 에이전트가 남기는 진행 메모가 모두 같은 패턴이다. 윈도우는 작업대일 뿐, 기억은 디스크에 둔다.</p>
+
+<h3>결정 로그(ADR) — 무엇을, 왜 결정했는지</h3>
+<p>ADR(Architecture Decision Record)은 "무엇을 결정했고, 왜 그렇게 결정했는지"를 짧게 남기는 기록이다. 단순히 결과만이 아니라 맥락과 이유를 적는다는 점이 핵심이다. 압축으로 대화가 날아가도 ADR이 남아 있으면, 새 세션의 에이전트가 "아, 이건 이미 이런 이유로 정해진 거구나"를 알고 그 결정을 존중한다.</p>
+
+<h3>실패도 일급 기록이다 — negative knowledge</h3>
+<p>여기가 사람들이 자주 빠뜨리는 곳이다. 흔히 "대화 다 지우고 결정만 남기자"고 한다. 좋은 직관이다 — 노이즈를 줄이고 결론만 깔끔하게 남기니까. 하지만 결정만 남기고 <strong>실패한 시도와 그 이유</strong>를 버리면, 에이전트는 어제 막다른 길로 판명난 그 길을 오늘 또 시도한다. "라이브러리 X는 우리 요구사항 Y를 못 맞춰서 폐기했다"는 negative knowledge가 없으면, 같은 삽질이 무한 반복된다. 그래서 실패 기록도 결정 로그만큼이나 일급 자산으로 남겨야 한다.</p>
+
+<h3>안정적인 프리픽스를 앞에 둔다</h3>
+<p>시스템 프롬프트와 결정 로그처럼 잘 안 바뀌는 내용을 컨텍스트 앞쪽에 안정적으로 배치하면 두 가지 이득이 있다. 첫째, prompt caching이 잘 먹어 비용·지연이 준다. 둘째, 중요한 정보가 윈도우 중간에 묻혀 무시되는 lost-in-the-middle 현상이 완화된다.</p>
+
+<div class="box principle"><span class="lab">핵심</span>
+<p style="margin:0">"다 지우고 결정만 남기자"는 좋은 직관이지만, <strong>실패 기록(negative knowledge)이 빠지면 위험하다.</strong> 같은 삽질을 반복하기 때문이다. 결정뿐 아니라 무엇이 왜 실패했는지도 일급 기록으로 외부에 빼둬야 한다.</p>
+</div>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>어려운 게임의 공략 노트와 세이브 파일을 떠올려 보자. 좋은 공략 노트는 "여기서 이 무기를 얻어라" 같은 정답만 적지 않는다. <strong>"3층 다리에서 함정에 빠져 죽었음 — 왼쪽으로 돌아가야 함"</strong>처럼 어디서 죽었고 어떤 함정이 있었는지(실패)까지 적는다.</p>
+<p>다음 판을 시작할 때, 정답 목록만 있으면 그 함정에 또 빠진다. 하지만 실패 기록이 있으면 그 구간을 단번에 통과한다. 결정(어떤 무기를 쓸지)만 남기는 게 아니라 실패(어디서 죽었는지)까지 세이브해 두는 것 — 그게 negative knowledge다.</p>
+</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td><span class="x">"대화 다 지우고 결정만 남기면 깔끔하다."</span></td><td><span class="o">실패 기록이 빠지면 위험하다.</span> negative knowledge가 없으면 막다른 길을 또 시도하는 같은 삽질이 반복된다.</td></tr>
+<tr><td><span class="x">"메모리는 모델 내부의 기능이다."</span></td><td><span class="o">여기서 말하는 메모리는 외부 파일 시스템이다.</span> NOTES.md·to-do·memory tool처럼 컨텍스트 밖에 적고 다시 부른다.</td></tr>
+<tr><td><span class="x">"무슨 결정을 했는지만 남기면 충분하다."</span></td><td><span class="o">'왜' 그 결정인지와 '무엇이' 실패했는지가 핵심이다.</span> 이유와 실패 맥락이 빠진 결정 목록은 쉽게 뒤집힌다.</td></tr>
+</tbody></table>
+</section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>같은 긴 작업(여러 세션에 걸친 기능 구현)을 두 조건으로 돌려 비교한다.</p>
+<p><strong>A 조건 — 결정 로그 없음:</strong> 각 세션이 끝나면 컨텍스트를 그냥 압축하고 다음 세션을 시작한다. <strong>B 조건 — 결정 로그 + 실패 기록 있음:</strong> 세션마다 "정한 것·정한 이유·시도했다 실패한 것·실패 이유"를 외부 파일에 적고, 다음 세션 시작 시 다시 첨부한다.</p>
+<p>관찰 포인트: A는 몇 번이나 이전 결정을 뒤집는가? 이미 실패한 접근을 몇 번이나 다시 꺼내는가? B와 일관성·낭비된 작업량을 비교해 보면, 실패 기록이 단순한 메모가 아니라 일관성을 떠받치는 뼈대임이 드러난다.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>왼쪽엔 '보따리(컨텍스트 윈도우)', 오른쪽엔 '외부 노트(파일)'가 두 개의 패널로 놓인다. 작업이 진행되며 보따리에 카드가 쌓이는데, 그중 두 종류가 특별히 빛난다 — <span class="o">초록 '결정 카드'</span>와 <span class="x">주황 '실패 카드'</span>.</p>
+<p>[빼두기] 버튼을 누르면 이 두 카드가 보따리에서 오른쪽 외부 노트로 날아가 저장된다. 그러면 보따리는 가벼워지고, 노트엔 결정·실패가 차곡차곡 기록된다.</p>
+<p>다음 턴이 시작되면 외부 노트의 카드들이 보따리 <strong>맨 앞(안정적 프리픽스 자리)</strong>에 다시 첨부되는 애니메이션이 재생된다. 비교 토글로 '실패 카드 빼고 첨부'를 켜면, 에이전트가 이미 실패한 주황 경로를 다시 선택하는 모습을 보여 줘 negative knowledge의 효과를 대비시킨다.</p>
+</div>
+</section>
+
+<section><h2>CASE</h2><div class="h">현장 적용 — 세션을 넘길 때 (실전 예시)</div>
+<p>이 강의 원리가 가장 자주 쓰이는 순간이 있다. 대화 세션이 길어져 <strong>새 세션으로 갈아탈 때</strong>다. 무엇을, 어떤 형식으로 넘겨야 할까? 답은 이미 7·8강이 줬다 — 핵심을 보따리 밖에 빼뒀다 다시 부른다. 다만 "어떤 그릇에 빼두느냐"는 <strong>누가 읽느냐 + 어디서 다시 쓰느냐</strong>가 정한다.</p>
+<table><thead><tr><th>방식</th><th>누가 읽나</th><th>한계</th></tr></thead><tbody>
+<tr><td><strong>compaction(압축)</strong></td><td>AI · 같은 작업 이어가기</td><td>손실적이고 AI 전용. 사람이 보거나 다른 기기로 들고 가기엔 부적합.</td></tr>
+<tr><td><strong>메모리(자동)</strong></td><td>AI · 세션 넘어 자동</td><td>편하지만 불투명·통제 약함. 낡은 사실이 따라붙는 brain rot 위험.</td></tr>
+<tr><td><strong>결정 로그 md</strong> <span class="o">← 새 세션 시드 기본값</span></td><td>사람 + AI</td><td>직접 큐레이션이 필요. 대신 휴대·감사·git diff가 깔끔.</td></tr>
+<tr><td><strong>html / 사이트</strong></td><td>사람 · 팀</td><td>브라우즈·공유에 좋지만 빌드가 필요. AI 시드용으론 과함.</td></tr>
+</tbody></table>
+<div class="box principle"><span class="lab">규칙</span>
+<p style="margin:0"><strong>누가 읽느냐가 형식을 정한다.</strong> 사람이 통제하며 새 세션을 깔끔히 열려면 → <strong>결정 로그 md</strong>가 기본값. 팀 공유 → 사이트. AI가 같은 작업만 이어가면 → compaction. compaction은 AI 전용·손실이라 사람 핸드오프엔 못 쓴다.</p>
+</div>
+
+<h3>한 source, 편집은 브라우저에서</h3>
+<p>"고치기 편하게 HTML로 만들고 거기서 수정하자"는 흔한 욕구가 있다. 절반은 맞다 — 휴대폰·브라우저 편집은 진짜 편하다. 하지만 <strong>표현(HTML)을 손으로 고쳐 MD로 되돌리는 건 손실·취약</strong>하다. 그래서 '편집 표면'과 '저장 형식'을 분리한다. 정본은 <strong>마크다운 한 벌</strong>로 두되, 편집은 페이지에서 한다 — 페이지가 *마크다운 내용*을 편집·렌더하고 버튼으로 `.md`를 내보낸다(HTML→MD 변환이 아니다). 그 `.md`가 AI에게 주는 원천이자 git 정본이 된다. <em>(예시: 이 시리즈의 <code>세션_핸드오프.html</code> 편집기 — 브라우저에서 고치고 MD로 내보낸다.)</em></p>
+
+<h3>핸드오프 md에 무엇을 넣나</h3>
+<p>고신호 최소 토큰 + '왜'와 '실패'를 포함 + 길고 변하는 건 링크로 참조(전체 붙여넣기 금지). 이 여덟 칸만 채운다.</p>
+<div class="card"><ul class="obj">
+<li><strong>목적·스코프 한 줄</strong> — 1초 만에 프레임을 잡게.</li>
+<li><strong>현재 상태</strong> — 지금 어디까지 왔는지 스냅샷.</li>
+<li><strong>결정 + 그 이유</strong> — '왜'가 있어야 다음 세션이 재논쟁을 안 한다.</li>
+<li><strong>실패 기록(negative knowledge)</strong> — 뭘 접었고 왜 접었나. 가장 자주 빠지는 핵심.</li>
+<li><strong>열린 질문</strong> — 미정 사항을 명시해 멋대로 가정하지 않게.</li>
+<li><strong>산출물·포인터</strong> — 파일 경로·링크만(내용 통째 X = 9강 just-in-time).</li>
+<li><strong>제약·톤·규칙</strong> — 반드시 지킬 것(사실 정정, 스타일).</li>
+<li><strong>시작 프롬프트</strong> — 새 세션에서 이걸 어떻게 쓰는지.</li>
+</ul></div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>중요한 건 보따리 안에서 버티게 하지 말고 <strong>외부 파일에 빼뒀다 다시 부른다</strong> — NOTES.md·to-do·결정 로그(ADR)로. 그리고 <strong>실패도 자산</strong>이다. negative knowledge를 일급으로 남겨야 같은 삽질을 막는다.</p>
+<p style="margin-bottom:0">그렇다면 필요한 정보를 보따리에 <strong>미리</strong> 채울까, 참조만 두고 <strong>그때그때</strong> 가져올까? 다음 편 — <strong>미리 넣을까, 그때그때 가져올까(RAG vs just-in-time)</strong>.</p>
+</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div><div class="card"><ol class="notes">
+<li>훅: 어제 내린 결정을 오늘 에이전트가 잊고 되돌리는 장면.</li>
+<li>structured note-taking — 윈도우는 작업대, 기억은 외부 파일(NOTES.md/to-do/memory tool)에.</li>
+<li>결정 로그(ADR) — 무엇을 + 왜. 결과만 아니라 이유를 남긴다.</li>
+<li>★ negative knowledge — 실패와 그 이유도 일급 기록. "결정만 남기자"의 함정 강조.</li>
+<li>안정적 프리픽스(시스템 프롬프트·결정 로그) 앞배치 → prompt caching + lost-in-the-middle 완화.</li>
+<li>현장 적용: 세션 넘기기 — 누가 읽느냐가 형식을 정한다(compaction=AI, 메모리=AI자동, 결정 로그 md=사람+AI 통제, 사이트=팀). 편집은 브라우저, 정본은 MD.</li>
+<li>다음 편 예고: 미리 넣기(RAG) vs 그때그때 가져오기(just-in-time).</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 8강</footer>
+</div></body></html>

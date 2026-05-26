@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>이 캐릭터는 기억이 없다</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<header class="hero"><div class="in"><span class="tag">ACT 1 · 1강</span><h1>이 캐릭터는 기억이 없다</h1><div class="topic">토픽 · 무상태 &amp; 보따리</div><div class="msg">AI는 매 턴 '컨텍스트 보따리'를 통째로 다시 건네야 움직인다. 어제 대화도 매번 다시 싼 것이다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="index.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_02.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>모델이 호출 사이에 아무것도 기억하지 않는 '무상태 함수'임을 설명할 수 있다.</li>
+<li>왜 기억이 '없어야만' 하는지 네 가지 이유(저장 공간·확장성·재현성·통제권)를 댈 수 있다.</li>
+<li>기억하는 주체는 모델이 아니라 그 위를 감싸는 '앱(하네스)'임을 구분할 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>RPG에 굉장한 NPC가 한 명 있다고 상상해 보자. 박학다식하고 말솜씨도 뛰어나다. 그런데 한 가지 기묘한 결함이 있다. 방금 당신과 나눈 대화를, 다음 순간 통째로 잊어버린다. "방금 내가 한 말 기억해?"라고 물으면 그는 매번 백지 상태로 돌아가 처음 보는 사람을 대하듯 군다.</p>
+<p>이상하게 들리겠지만, 이것이 바로 오늘날 거대 언어모델의 실제 모습이다. 우리가 ChatGPT와 길게 대화하면 마치 모델이 앞 내용을 '기억'하는 것처럼 보인다. 하지만 모델 그 자체는, 엄밀히 말해, 한 번의 호출이 끝나는 순간 방금 일을 전부 잊는다.</p>
+<p>그렇다면 어떻게 대화가 이어지는 걸까? 답은 충격적일 만큼 단순하다. 매번 지난 대화를 통째로 '다시 건네주기' 때문이다. 이번 강에서는 이 무상태성이 왜 결함이 아니라 정교한 설계인지, 그리고 진짜 '기억지기'는 누구인지 밝힌다. 이것이 시리즈 전체의 출발점이다 — 당신이 무엇을 보따리에 담느냐가 곧 AI가 아는 전부이기 때문이다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>1. 모델은 '고정된 함수'다 — 출력 = f(고정 가중치, 입력 보따리)</h3>
+<p>학습이 끝난 모델은 가중치가 얼어붙은 거대한 수학 함수다. 한 번의 호출에서 일어나는 일은 이렇게 적을 수 있다. <code>출력 = f(고정 가중치, 입력)</code>. 여기서 가중치는 매 호출 동안 변하지 않고, 함수는 입력으로 받은 토큰 묶음 — 우리가 <strong>컨텍스트 보따리</strong>라 부를 것 — 만을 보고 다음 토큰을 만들어 낸다. 호출과 호출 사이에 함수가 따로 적어 두는 메모장 같은 것은 없다.</p>
+<p>그래서 모델이 무언가를 '알고' 행동하려면, 그 정보가 반드시 이번 호출의 보따리 안에 들어 있어야 한다. 어제의 대화든, 방금 전 문장이든 마찬가지다. 보따리에 다시 싸 넣지 않으면, 모델에게는 일어나지 않은 일이다.</p>
+
+<h3>2. 왜 '기억이 없어야만' 하는가 — 핵심만</h3>
+<p>이건 결함이 아니라 의도된 설계다. 길게 풀 수도 있지만 1강에선 핵심만 짚고, 깊은 이야기는 뒤 강에서 이어 간다. 네 가지가 사슬처럼 이어진다.</p>
+<p><strong>(1) 저장할 곳이 없다.</strong> 가중치가 고정된 함수라, 대화를 적어 둘 내부 공간 자체가 없다. 기억하지 '않는' 게 아니라 기억할 자리가 없는 것이다.</p>
+<p><strong>(2) 그래서 무한히 확장된다.</strong> 상태가 없으니 어떤 요청이든 아무 서버나 받아 처리할 수 있다(웹 서버를 무상태로 짜는 것과 같은 이유). 그래서 수백만 명을 동시에 응대한다.</p>
+<p><strong>(3) 그래서 재현·디버깅이 된다.</strong> 출력이 오직 보따리에만 의존하니, 같은 보따리는 같은 행동을 낸다 — "보따리에 없으면 일어나지 않은 일"이다.</p>
+<p><strong>(4) 그래서 통제권이 당신에게 온다.</strong> 모든 맥락이 밖에 명시적으로 있으니, 보고 고치고 지우고 처음부터 리셋할 수 있다. 이게 이번 강의 진짜 메시지다.</p>
+
+<div class="box principle"><span class="lab">핵심</span>모델의 건망증은 결함이 아니라, 당신에게 통제권을 주는 설계다. 모든 맥락이 외부의 보따리에 명시적으로 담기기에 우리는 그것을 보고, 고치고, 지우고, 되돌릴 수 있다.</div>
+
+<h3>3. 기억하는 건 모델이 아니라 '앱(하네스)'이다</h3>
+<p>그렇다면 ChatGPT가 앞 대화를 기억하는 듯한 경험은 무엇인가? 그것은 모델을 감싼 <strong>앱(하네스)</strong>이 하는 일이다. 앱은 당신이 보낸 메시지와 모델의 답변을 데이터베이스에 차곡차곡 저장해 둔다. 그리고 새 메시지가 올 때마다, 저장해 둔 지난 대화를 다시 꺼내 이번 호출의 보따리에 통째로 욱여넣어 모델에게 건넨다.</p>
+<p>즉 기억지기는 앱이고, 모델은 매 순간 백지에서 출발하는 건망증 환자다. "대화 길이가 길어지면 모델이 알아서 누적 저장한다"는 것은 오해다. 길어진 만큼 앱이 매 호출마다 더 많은 분량을 다시 전송하고 있을 뿐이다. 이 사실은 다음 강 이후에 등장할 비용·컨텍스트 길이·컨텍스트 관리 문제로 곧장 이어진다.</p>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>매 문장이 끝날 때마다 기억을 잃는 천재 계약직 컨설턴트를 떠올려 보자. 그는 어떤 분야든 즉석에서 최고 수준으로 일하지만, 한 가지 조건이 있다. 사무실에 들어올 때마다 자신이 누구이고 무슨 프로젝트를 하던 중인지 전혀 기억하지 못한다. 그래서 당신은 그를 부를 때마다, 지금까지의 회의록·결정사항·고객 요구가 담긴 <strong>폴더(보따리)</strong>를 통째로 그의 손에 쥐여 줘야 한다. 폴더에 적힌 만큼만 그는 일한다. 폴더에서 한 페이지를 빼면 그 사실은 그에게 존재하지 않게 되고, 폴더를 통째로 비우면 그는 완전한 백지로 돌아간다. 답답해 보이지만 장점이 있다 — 폴더가 곧 진실이므로, 당신은 그가 무엇을 근거로 일하는지 언제든 열어 보고 고칠 수 있다. 게임으로 바꿔 말하면, 세이브 파일을 불러와야만 캐릭터가 자기 진행 상황을 아는 것과 같다. 진행 상황은 캐릭터의 머릿속이 아니라 세이브 파일(외부)에 있다.</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"모델이 대화를 기억한다."</td><td class="o">모델은 호출 사이에 아무것도 기억하지 않는다. 앱이 지난 대화를 저장했다가 매 호출 보따리에 다시 넣어 주는 것이다.</td></tr>
+<tr><td class="x">"긴 대화는 모델이 누적해서 저장한다."</td><td class="o">누적 저장은 없다. 길어진 분량만큼 매 호출마다 전체를 다시 전송하는 것이며, 그래서 비용과 길이 부담이 커진다.</td></tr>
+<tr><td class="x">"기억이 없는 건 모델의 결함이다."</td><td class="o">무상태성은 확장성·재현성·통제권을 가능하게 하는 의도된 설계다. 맥락이 외부에 명시적이라 우리가 다룰 수 있다.</td></tr>
+<tr><td class="x">"내부 메모리를 키우면 모델이 더 잘 기억할 것이다."</td><td class="o">모델에는 호출 간 메모리 슬롯이 없다. 기억은 모델이 아니라 앱이 보따리를 관리하는 방식의 문제다.</td></tr>
+</tbody></table></section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p><strong>실험 A — 같은 보따리, 같은 반응.</strong> 정확히 동일한 입력 보따리(시스템 지시 + 대화 기록)를 두 번 모델에게 건네 보자. 샘플링의 무작위성을 제거하면(temperature를 0에 가깝게) 두 번의 출력이 사실상 같아진다. 모델이 '그날 기분'이나 '지난번 기억'에 따라 달라지지 않고, 오직 받은 보따리에만 반응한다는 것을 보여 준다.</p>
+<p><strong>실험 B — 보따리를 비우면 백지.</strong> 한참 대화하던 중 새 창을 열어 대화 기록을 빼고 마지막 질문만 단독으로 던져 보자. 모델은 앞 내용을 전혀 모르는 사람처럼 군다. '기억'처럼 보이던 것이 실은 앱이 보따리에 넣어 주던 대화 기록이었음을, 그것을 빼는 순간 곧바로 확인하게 된다.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>가운데에 표정 없는 <strong>빈 캐릭터</strong>가 있고, 그 앞에 열린 <strong>보따리 UI</strong>(메모 카드를 끼워 넣는 슬롯들)가 놓인다. 사용자는 "내 이름은 민수다", "지난 주문 번호는 #482" 같은 메모 카드를 보따리에 끼우거나 뺄 수 있다. <strong>[실행]</strong>을 누르면, 캐릭터는 오직 현재 보따리에 담긴 카드만 보고 답한다 — 이름을 빼면 이름을 모른다고 하고, 다시 끼우면 이름을 부른다. <strong>[보따리 비우기]</strong>를 누르면 캐릭터는 즉시 완전한 백지로 돌아간다. 핵심은 캐릭터 머리 위에 '내부 메모리: 없음(0 bytes)' 표시를 항상 띄워, 기억의 출처가 캐릭터가 아니라 외부 보따리임을 시각적으로 못 박는 것이다.</div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">모델은 호출 사이에 아무것도 기억하지 않는 <strong>무상태 함수</strong>이고, 진짜 기억지기는 매번 보따리를 다시 싸 주는 <strong>앱</strong>이다. 건망증은 결함이 아니라 통제권을 주는 설계다. — 그렇다면 그 '보따리'에 담기는 단위는 정확히 무엇이고, 왜 많이 담을수록 비싸질까? 다음 편 「AI는 토큰과 좌표로 본다」에서, 보따리의 기본 단위인 <strong>토큰</strong>과 의미의 좌표(임베딩)를 파헤친다.</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div>
+<div class="card"><ol class="notes">
+<li>"방금 한 말 기억해?"에 백지가 되는 캐릭터 그림으로 시작 — 무상태성을 직관적으로 보여 준다.</li>
+<li><code>출력 = f(고정 가중치, 입력 보따리)</code>를 칠판에 쓰고, 호출 간 내부 상태가 없음을 강조.</li>
+<li>네 겹의 이유를 번호로 판서: 저장 공간 없음 → 확장성(REST 무상태) → 재현·디버깅 → 통제권.</li>
+<li>핵심 박스: "건망증은 결함이 아니라 당신에게 통제권을 주는 설계다."</li>
+<li>앱이 DB에 저장했다가 매 호출 보따리에 다시 넣는 그림을 그려, 기억지기=앱 / 모델=건망증 환자를 분리.</li>
+<li>다음 편 떡밥: "그럼 이 보따리에 담기는 단위는 뭘까? — 토큰, 그리고 의미의 좌표."</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 1강</footer>
+</div></body></html>

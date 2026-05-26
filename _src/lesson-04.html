@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>보따리는 공짜가 아니다 — 어텐션 n²와 KV 캐시</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<header class="hero"><div class="in"><span class="tag">ACT 2 · 4강</span><h1>보따리는 공짜가 아니다</h1><div class="topic">어텐션 n² &amp; KV 캐시</div><div class="msg">토큰을 늘리려면 알고리즘이 필요하고, 늘려도 비싸진다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_03.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_05.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>어텐션이 왜 토큰 수의 제곱(n²)으로 비싸지는지 그림처럼 설명할 수 있다.</li>
+<li>컨텍스트를 늘리기 위해 사람들이 발명한 알고리즘들(FlashAttention, sparse/sliding-window, GQA/MQA, PagedAttention, RoPE 보간·YaRN)이 각각 무엇을 해결하는지 구분할 수 있다.</li>
+<li>KV 캐시가 속도를 살리는 대신 메모리를 새 병목으로 만드는 구조, 그리고 prompt caching이 '비용·지연'만 줄일 뿐 '품질'은 별개라는 점을 설명할 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>요즘 모델 소개를 보면 "컨텍스트 100만 토큰!"이라는 문구가 자랑처럼 붙습니다. 책 한 권을 통째로 넣어도 모자라지 않을 분량입니다. 그러면 자연스럽게 이런 기대가 생깁니다. "그럼 그냥 다 넣으면 되겠네. 길게 쓸수록 모델이 더 똑똑해지겠지."</p>
+<p>그런데 실제로 길게 써 보면 이상한 일이 벌어집니다. 응답이 눈에 띄게 느려지고, API 청구서의 숫자가 무섭게 불어납니다. 분명 "넣을 수 있다"고 했는데, 막상 넣으니 대가가 따라붙습니다. 왜 그럴까요?</p>
+<p>핵심은 한 문장입니다. <strong>토큰은 늘릴 수 있습니다. 단, 공짜가 아닙니다.</strong> 이번 강에서는 그 '값'이 어디서 나오는지를 트랜스포머의 심장인 어텐션과, 추론을 빠르게 해주는 KV 캐시의 구조에서 직접 끄집어내 보겠습니다. 이걸 이해하면 "왜 길면 비싸고 느린가"가 더 이상 마법이 아니라 산수로 보입니다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>1. 어텐션은 모든 토큰이 모든 토큰을 본다 — 그래서 n²</h3>
+<p>트랜스포머의 셀프 어텐션은 "각 토큰이 다른 모든 토큰을 얼마나 참고할지"를 계산합니다. 토큰이 n개 있으면, 모든 쌍의 관계를 따져야 하므로 약 n×n = n²개의 관계가 생깁니다. 토큰을 2배로 늘리면 관계는 4배, 4배로 늘리면 16배가 됩니다. 연산량과 (어텐션 점수 행렬을 담을) 메모리가 길이에 대해 제곱으로 증가하는 것이죠.</p>
+<p>이게 "100만 토큰을 그냥 다 넣으면 된다"는 직관이 깨지는 지점입니다. 길이를 늘리는 건 덧셈이 아니라 곱셈에 가깝습니다. 10배 긴 입력은 단순히 10배 비싼 게 아니라, 어텐션 부분에서는 100배 수준의 비용을 향해 갑니다.</p>
+
+<h3>2. 그래서 '늘리는 알고리즘'이 따로 필요하다</h3>
+<p>이 n² 벽 때문에, 긴 컨텍스트는 그냥 되는 게 아니라 '발명'해야 합니다. 대표적인 접근들을 목적별로 정리하면 이렇습니다.</p>
+<p><strong>FlashAttention</strong>은 계산 자체를 줄이진 않지만, GPU 메모리 입출력(IO)을 똑똑하게 재배열해 거대한 점수 행렬을 한꺼번에 메모리에 올리지 않고 처리합니다. 같은 결과를 더 적은 메모리 대역폭으로 빠르게 뽑는 'IO 효율화'입니다.</p>
+<p><strong>Sparse / sliding-window attention</strong>은 "모든 토큰이 모든 토큰을 볼 필요는 없다"는 가정으로, 가까운 토큰이나 일부만 보게 해서 관계의 수 자체를 줄입니다. n²를 더 완만한 곡선으로 깎는 전략입니다.</p>
+<p><strong>GQA / MQA</strong>는 어텐션 헤드들이 Key/Value를 공유하게 만들어 뒤에서 이야기할 KV 캐시의 크기를 줄입니다. <strong>PagedAttention</strong>(vLLM)은 운영체제의 가상 메모리 페이징처럼 KV 캐시를 잘게 쪼개 관리해 메모리 낭비를 줄입니다. <strong>RoPE 위치 보간·YaRN</strong>은 짧게 학습된 모델의 위치 표현을 늘려서, 학습 때보다 더 긴 시퀀스를 다룰 수 있게 '위치를 확장'합니다.</p>
+<div class="box principle"><span class="lab">핵심</span>
+컨텍스트 윈도우가 길어진 건 마법이 아니라 공학의 결과입니다. n²라는 근본 비용은 사라지지 않았고, 위 알고리즘들은 그 비용을 '관리 가능한 수준'으로 깎아내는 도구일 뿐입니다. 즉 토큰은 늘릴 수 있지만, 늘리는 데 알고리즘이 들고 늘릴수록 수확은 체감합니다.
+</div>
+
+<h3>3. KV 캐시 — 속도를 사고 메모리를 판다</h3>
+<p>모델이 답을 한 토큰씩 생성(디코딩)할 때, 매번 앞의 모든 토큰에 대한 Key/Value를 처음부터 다시 계산하면 끔찍하게 느립니다. 그래서 한 번 계산한 Key/Value를 저장해 두고 재사용하는 것이 <strong>KV 캐시</strong>입니다. 덕분에 새 토큰 하나를 만드는 비용은 사실상 선형(O(n)) 수준으로 내려갑니다.</p>
+<p>문제는 그 캐시가 공짜로 쌓이지 않는다는 점입니다. KV 캐시의 크기는 <em>시퀀스 길이 × 레이어 수 × 헤드 수</em>에 비례해 선형으로 불어납니다. 길게 쓸수록 GPU 메모리에 쌓이는 캐시가 커지고, 결국 '연산'이 아니라 '메모리'가 새 병목이 됩니다. 앞서 본 GQA/MQA, PagedAttention이 정확히 이 캐시 메모리 문제를 겨냥한 이유입니다.</p>
+
+<h3>4. prompt caching — 비용·지연은 줄지만 품질은 별개</h3>
+<p>여러 요청에서 앞부분(시스템 프롬프트, 고정 지침 같은 안정적 프리픽스)이 똑같다면, 그 부분의 KV를 매번 다시 계산하지 않고 재사용할 수 있습니다. 이것이 <strong>prompt caching</strong>입니다. 같은 앞부분을 반복하는 워크로드에서 비용과 지연(latency)을 크게 낮춰 줍니다.</p>
+<p>여기서 꼭 분리해서 기억해야 할 게 있습니다. prompt caching이 좋아지는 건 어디까지나 '비용과 속도'입니다. 모델이 더 정확해지거나 덜 헷갈리는 것, 즉 '품질'은 캐시와 무관한 별개의 문제입니다. 캐시는 같은 계산을 빨리 꺼내 줄 뿐, 긴 컨텍스트가 답을 더 좋게 만들어 주지는 않습니다.</p>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>회의실을 떠올려 보세요. 참석자들이 서로 인사를 나눠야 하는데, 모두가 모두와 한 번씩 악수해야 한다고 합시다. 4명이면 악수 횟수가 6번 남짓이지만, 8명이면 28번, 16명이면 120번으로 폭증합니다. 사람 수가 2배가 되면 악수는 4배 가까이 됩니다. 이게 바로 어텐션의 n² 비용입니다. 토큰 한 명 한 명이 다른 모든 토큰과 '악수'(관계 계산)를 해야 하니까요.</p>
+<p>그렇다면 KV 캐시는 무엇일까요? 회의 중에 "아, 이미 저분과는 악수했지"를 적어 두는 <strong>수첩</strong>입니다. 같은 사람과 또 악수하느라 시간을 낭비하지 않게 해 줍니다. 단, 참석자가 많아질수록 수첩에 적을 내용도 늘어나, 결국 수첩(메모리) 자체가 두꺼워져 짐이 됩니다. 빠름을 얻는 대신 두툼한 수첩을 들고 다녀야 하는 셈입니다.</p>
+</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"토큰은 어차피 못 늘린다."</td><td class="o">늘릴 수 있다. 다만 FlashAttention·sparse·GQA·YaRN 같은 알고리즘이 필요하고, 늘릴수록 수확이 체감한다. '못 늘린다'가 아니라 '공짜로는 못 늘린다'.</td></tr>
+<tr><td class="x">"캐시를 쓰면 아무리 길어도 괜찮다."</td><td class="o">prompt caching/KV 캐시는 비용과 지연을 줄여 줄 뿐이다. 모델의 정확도(품질)는 캐시와 별개이며 길이가 길어지면 따로 나빠질 수 있다.</td></tr>
+<tr><td class="x">"컨텍스트 윈도우가 크면 무조건 좋다."</td><td class="o">큰 윈도우는 n² 비용·KV 메모리 증가·뒤에서 다룰 성능 저하(context rot)를 함께 데려온다. 크다는 건 '가능성'이지 '공짜 이득'이 아니다.</td></tr>
+</tbody></table>
+</section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p><strong>실험 A — 연결선 직접 세기.</strong> 종이에 점 4개를 찍고 모든 점을 선으로 잇습니다(6개). 이제 점을 8개로 늘려 다시 모두 잇습니다. 선이 6개에서 28개로 뛰는 걸 눈으로 확인하세요. 토큰을 2배로 늘렸을 뿐인데 '관계'는 4배 넘게 늘어납니다. 이게 길게 쓸 때 비용이 폭증하는 이유입니다.</p>
+<p><strong>실험 B — KV 캐시 체감.</strong> 같은 긴 프롬프트로 답을 생성할 때, 캐시가 켜진 환경과 꺼진(또는 매번 새 프리픽스) 환경의 첫 토큰까지 걸리는 시간을 비교해 보세요. 캐시가 켜지면 같은 앞부분을 반복할 때 눈에 띄게 빨라지지만, 답의 '내용 품질' 자체는 달라지지 않는다는 점도 함께 관찰하세요.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>가운데에 <strong>토큰 슬라이더</strong>(예: 4 → 64)를 둡니다. 슬라이더를 움직이면 화면 왼쪽 원형 그래프에 토큰이 점으로 추가되고, 점들 사이를 잇는 <strong>n² 연결선</strong>이 실시간으로 그려집니다. 연결선 개수가 슬라이더와 함께 폭발적으로 늘어나는 걸 시각적으로 보여 줍니다.</p>
+<p>오른쪽에는 두 개의 곡선을 겹쳐 그립니다. 하나는 <strong>어텐션 비용 곡선</strong>(n² 모양으로 가파르게 상승), 다른 하나는 <strong>KV 캐시 메모리 곡선</strong>(시퀀스×레이어×헤드 = 선형으로 상승). 아래에는 <code>KV 캐시 ON/OFF</code> 토글을 두어, 끄면 생성 비용이 매 토큰마다 다시 치솟고(재계산), 켜면 토큰당 비용이 평평해지는 것을 비교하게 합니다. 마지막 안내 문구: "캐시는 속도를 사 줄 뿐, 품질을 사 주지는 않습니다."</p>
+</div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>토큰은 늘릴 수 있지만 공짜가 아닙니다. 어텐션 비용은 길이의 제곱(n²)으로 늘고, KV 캐시는 속도를 사 주는 대신 메모리를 새 병목으로 만듭니다. prompt caching은 비용과 지연을 줄여 줄 뿐, 품질은 따라오지 않습니다.</p>
+<p><strong>다음 편 예고 —</strong> 게다가 길게 넣으면 비싸기만 한 게 아닙니다. <em>길면 멍청해집니다.</em> 5강에서는 컨텍스트가 길어질수록 모델의 정확도가 떨어지는 현상, 특히 '중간을 흘리는' context rot를 파헤칩니다.</p>
+</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div>
+<div class="card"><ol class="notes">
+<li>"100만 토큰"이라는 자랑 문구를 띄우고, "그럼 다 넣으면 되나?"라는 질문으로 출발한다.</li>
+<li>점 4개 → 8개로 늘리며 연결선이 6 → 28로 폭증하는 그림을 직접 그려 n² 비용을 각인시킨다.</li>
+<li>n² 벽을 깎는 알고리즘들을 목적별로 한 줄씩 판서: FlashAttention(IO), sparse/sliding(관계 수↓), GQA/MQA(캐시↓), PagedAttention(메모리 관리), RoPE 보간·YaRN(위치 확장).</li>
+<li>KV 캐시를 '수첩' 비유로 설명하고, 캐시 크기 = 시퀀스×레이어×헤드로 메모리가 새 병목임을 강조한다.</li>
+<li>prompt caching은 '비용·지연만' 줄인다는 점을 굵게 분리해 적고, 품질과는 별개임을 못 박는다.</li>
+<li>한 줄 요약 "토큰은 공짜가 아니다"를 적고, 다음 편 "길면 멍청해진다(context rot)"로 다리를 놓는다.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 4강</footer>
+</div></body></html>

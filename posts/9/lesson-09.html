@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="ko"><head>
+<!-- ======= Open Skill Diary theme adapter (injected) ======= -->
+<style id="osd-theme-adapter">
+  /* Reserve space for the floating bar — adapter does NOT touch the simulator's
+     own max-width / centering. If the simulator has .container { max-width: ...;
+     margin: 0 auto } it stays centered; if it has none, it stays full-width. */
+  body { padding-top: 56px !important; }
+
+  /* Allow page to grow naturally — many simulators set
+     html, body { height:100%; overflow:hidden } to lock viewport. The adapter
+     overrides this so floating bar is reachable via scroll. */
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    overflow-y: auto !important;
+  }
+
+  /* Bidirectional inversion: applied only when the source tone differs from
+     the selected blog theme. If they match, the original colors are kept
+     untouched. The wrapper isolates the filter from the floating bar. */
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] body { background: #f7f8fb !important; }
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] body { background: #0c1220 !important; }
+
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper {
+    filter: invert(0.92) hue-rotate(180deg);
+    min-height: 100vh;
+  }
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper img,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper video,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper canvas,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper img,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper video,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper canvas {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  /* Floating top bar — fixed, very high z-index, sits above wrapper */
+  #osd-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 2147483647;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 16px;
+    background: rgba(15, 22, 36, 0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: #e8eef9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
+                 "Noto Sans KR", sans-serif;
+    font-size: 13px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  html[data-osd-theme="light"] #osd-bar {
+    background: rgba(255,255,255,0.92);
+    border-bottom: 1px solid #e3e8ef;
+    color: #1a2332;
+    box-shadow: 0 1px 3px rgba(20,30,50,0.06), 0 4px 16px rgba(20,30,50,0.04);
+  }
+  #osd-bar a, #osd-bar button {
+    color: inherit; background: transparent; border: 1px solid currentColor;
+    border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    opacity: 0.85; transition: opacity .15s, transform .15s;
+    font-family: inherit;
+  }
+  #osd-bar a:hover, #osd-bar button:hover { opacity: 1; transform: translateY(-1px); }
+  #osd-bar .osd-bar__title { font-weight: 700; letter-spacing: -0.2px; opacity: 0.9;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #osd-bar .osd-bar__actions { display: flex; gap: 8px; flex-shrink: 0; }
+  #osd-bar .osd-bar__brand { font-weight: 700; font-size: 13px; opacity: 0.7; flex-shrink: 0; }
+  @media (max-width: 640px) {
+    #osd-bar { padding: 8px 10px; font-size: 12px; }
+    #osd-bar .osd-bar__title { display: none; }
+  }
+</style>
+<script>
+  (function(){
+    document.documentElement.setAttribute('data-osd-source-theme', 'light');
+    try {
+      var t = localStorage.getItem('blog-theme') || 'dark';
+      document.documentElement.setAttribute('data-osd-theme', t);
+    } catch(e){}
+  })();
+</script>
+<!-- ======= /theme adapter ======= -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>미리 넣을까, 그때그때 가져올까</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<!-- ======= OSD floating bar (injected) ======= -->
+<div id="osd-bar" role="navigation" aria-label="블로그 네비게이션">
+  <a href="../../index.html" class="osd-bar__brand" title="블로그 홈">◆ Diary</a>
+  <div class="osd-bar__title">미리 넣을까, 그때그때 가져올까</div>
+  <div class="osd-bar__actions">
+    <a href="../../index.html">← 목록</a>
+    <button type="button" id="osd-theme-toggle" aria-label="테마 전환">테마</button>
+  </div>
+</div>
+<!-- ======= /OSD floating bar ======= -->
+
+<script>
+  // Wrap body content so the light-mode filter applies only to wrapper, not to floating bar
+  (function(){
+    function wrap(){
+      var bar = document.getElementById('osd-bar');
+      var wrapper = document.createElement('div');
+      wrapper.id = 'osd-content-wrapper';
+      wrapper.style.cssText = 'transition: filter .25s;';
+      var nodes = Array.prototype.slice.call(document.body.childNodes);
+      nodes.forEach(function(n){ if (n === bar) return; wrapper.appendChild(n); });
+      document.body.appendChild(wrapper);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wrap, { once: true });
+    } else { wrap(); }
+  })();
+</script>
+
+<script>
+  (function(){
+    var btn = document.getElementById('osd-theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-osd-theme') || 'dark';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-osd-theme', next);
+      try { localStorage.setItem('blog-theme', next); } catch(e){}
+    });
+  })();
+</script>
+
+<header class="hero"><div class="in"><span class="tag">ACT 3 · 9강</span><h1>미리 넣을까, 그때그때 가져올까</h1><div class="topic">RAG vs Just-in-time</div><div class="msg">보따리를 사전에 채울지(RAG), 참조만 두고 필요할 때 가져올지(just-in-time)의 트레이드오프.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_08.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_10.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>RAG(미리 채우기)와 just-in-time(그때그때 가져오기)의 차이와 트레이드오프를 설명할 수 있다.</li>
+<li>파일명·폴더 구조·타임스탬프 같은 메타데이터가 그 자체로 강한 신호임을 안다.</li>
+<li>안정적인 건 미리, 동적인 건 그때그때 가져오는 하이브리드 전략을 설계할 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>수십만 줄짜리 코드베이스가 있다. 에이전트에게 "이 인증 모듈의 버그를 고쳐 줘"라고 시키고 싶다. 그런데 코드 전부를 보따리에 욱여넣을 수는 없다 — 윈도우가 아무리 커도 한 회사의 모노레포는 안 들어간다.</p>
+<p>그럼 어떻게 참조시킬까? 두 가지 길이 갈린다. 하나는 <strong>관련돼 보이는 코드 조각을 미리 찾아 보따리에 넣어 두는 길</strong>(RAG), 또 하나는 <strong>코드는 그대로 두고 참조만 든 채 필요할 때 도구로 꺼내 보는 길</strong>(just-in-time)이다.</p>
+<p>둘 중 하나가 늘 정답인 건 아니다. 이건 트레이드오프다. 이번 편은 두 방식의 장단점과, 실무에서 흔히 쓰는 하이브리드를 다룬다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>RAG — 미리 찾아 보따리에 넣는다</h3>
+<p>RAG(Retrieval-Augmented Generation)는 임베딩 검색으로 질문과 관련된 청크를 미리 찾아 컨텍스트에 넣어 두는 방식이다. 모델이 작업을 시작할 때 이미 관련 자료가 손안에 있으니 빠르다. 다만 단점이 있다 — 인덱싱 시점 이후 내용이 바뀌면 <strong>stale(오래됨)</strong>해지고, 청크 경계가 의미 단위를 어색하게 자르며, 검색이 빗나가면 엉뚱한 조각을 가져온다.</p>
+
+<h3>just-in-time — 참조만 들고 그때그때 로드</h3>
+<p>just-in-time은 파일 경로·링크·쿼리 같은 <strong>참조</strong>만 들고 있다가, 정말 필요한 순간에 도구로 그때그때 불러오는 방식이다. Claude Code가 큰 데이터를 통째로 올리지 않고 <code>grep</code>·<code>glob</code>으로 찾고 <code>head</code>·<code>tail</code>로 일부만 들여다보며 탐색하는 것이 대표적이다. 항상 최신이고 정확한 위치를 짚지만, 매번 도구를 호출해 가져오니 상대적으로 느리다.</p>
+
+<h3>메타데이터가 강한 신호다</h3>
+<p>여기서 자주 간과되는 통찰. 파일명·폴더 구조·타임스탬프 같은 메타데이터 자체가 강력한 의미 신호다. 예를 들어 <code>test/</code> 폴더 안의 <code>test_utils.py</code>와 <code>src/core_logic/</code> 안의 같은 이름 파일은 이름이 같아도 역할이 전혀 다르다. 전자는 테스트 보조, 후자는 핵심 로직일 가능성이 높다. 탐색형 에이전트는 이 구조를 단서로 어디를 열어 볼지 똑똑하게 좁힌다.</p>
+
+<h3>하이브리드 — 안정적인 건 미리, 동적인 건 그때그때</h3>
+<p>실무에서 가장 흔한 답은 둘을 섞는 것이다. 잘 안 바뀌는 안정적인 정보(프로젝트 규칙, 코딩 컨벤션)는 <code>CLAUDE.md</code> 같은 형태로 미리 넣어 두고, 자주 바뀌는 동적인 정보(현재 코드 상태)는 <code>grep</code>으로 그때그때 가져온다.</p>
+
+<div class="box principle"><span class="lab">핵심</span>
+<p style="margin:0"><strong>RAG는 빠르지만 stale·청크·검색 빗나감의 위험</strong>이 있고, <strong>just-in-time은 신선·정확하지만 느리다.</strong> 어느 쪽도 항상 정답은 아니며 — 특히 <strong>동적인 작업엔 just-in-time이 나을 때가 많다.</strong> 이건 트레이드오프다.</p>
+</div>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>도서관에서 공부한다고 하자. <strong>RAG는 관련 있어 보이는 책을 전부 가방에 넣고 다니는 것</strong>이다. 자리에 앉으면 바로 펴 볼 수 있어 빠르지만, 가방이 무겁고, 어제 담은 책은 오늘 개정판이 나왔을 수도 있다(stale). 게다가 정작 필요한 페이지가 안 담겨 있을 수도 있다.</p>
+<p><strong>just-in-time은 청구기호만 손에 들고 다니는 것</strong>이다. 가방은 가볍고, 필요할 때 서가에서 바로 최신판을 꺼내 온다. 항상 신선하고 정확하지만, 매번 서가까지 걸어가야 하니 한 박자 느리다. 책 제목과 분류 기호(메타데이터)만 봐도 어느 서가로 갈지 알 수 있다는 점이 이 방식의 무기다.</p>
+</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td><span class="x">"RAG가 항상 답이다."</span></td><td><span class="o">동적인 작업엔 just-in-time이 나을 때가 많다.</span> 상태가 계속 변하는 코드베이스에서 미리 박제한 청크는 금세 어긋난다.</td></tr>
+<tr><td><span class="x">"관련 자료를 다 미리 넣어 두면 안전하다."</span></td><td><span class="o">rot(낡음)과 비용 문제가 생긴다.</span> 미리 채운 정보는 오래되기 쉽고, 윈도우와 토큰 비용을 잡아먹는다.</td></tr>
+<tr><td><span class="x">"검색하면 정답이 보장된다."</span></td><td><span class="o">청크 경계와 신선도 문제가 있다.</span> 의미 단위가 어색하게 잘리거나 인덱스가 낡으면 검색은 빗나간다.</td></tr>
+</tbody></table>
+</section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>같은 질문 하나를 두 방식으로 처리해 비교한다. 질문 예: "결제 모듈에서 환불 처리 로직이 어디 있고 최근에 어떻게 바뀌었나?"</p>
+<p><strong>① RAG(미리):</strong> 코드베이스를 사전 인덱싱해 둔 임베딩에서 관련 청크를 검색해 답한다. <strong>② 탐색(그때그때):</strong> <code>grep</code>으로 'refund' 키워드를 찾고, 폴더 구조로 위치를 좁힌 뒤, 해당 파일의 최근 변경을 직접 열어 본다.</p>
+<p>비교 항목: <strong>속도</strong>(RAG가 보통 빠름) vs <strong>정확도·신선도</strong>(탐색이 보통 우세). 코드가 최근에 바뀐 케이스를 일부러 섞어 두면, RAG가 stale한 옛 청크를 집어 오는 장면을 직접 목격하게 된다. 트레이드오프가 눈앞에서 드러난다.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>화면을 좌우로 갈라 두 방식을 동시에 경주시킨다. 가운데엔 같은 질문 카드 하나. 양쪽엔 똑같은 코드베이스(폴더 트리)가 놓인다.</p>
+<p><strong>왼쪽 — RAG:</strong> 시작과 동시에 관련 청크들이 보따리로 우르르 미리 끌려 들어온다. 빠르게 답이 나오지만, 끌려온 청크 중 하나에 <span class="x">'STALE(낡음)'</span> 도장이 찍히고, 청크 경계가 함수를 어중간하게 자른 모습이 보인다.</p>
+<p><strong>오른쪽 — just-in-time:</strong> 보따리는 거의 빈 채로, 폴더 트리 위에서 <code>grep</code>·<code>glob</code> 탐색이 한 칸씩 움직인다. 파일명·폴더명(메타데이터)에 하이라이트가 들어오며 후보가 좁혀지고, 마지막에 정확한 파일의 최신 내용만 쏙 가져온다. 느리지만 신선하다.</p>
+<p>하단 토글 [하이브리드]를 켜면, 안정적인 <code>CLAUDE.md</code>는 왼쪽처럼 미리 들어오고 동적인 코드는 오른쪽처럼 탐색하는 절충 모드를 보여 준다.</p>
+</div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>미리 채우기(RAG)냐 그때그때 가져오기(just-in-time)냐는 <strong>트레이드오프</strong>다 — RAG는 빠르지만 낡고, just-in-time은 신선하지만 느리다. 동적 작업엔 just-in-time이 유리할 때가 많고, 메타데이터는 강한 신호이며, 실무에선 <strong>하이브리드</strong>가 흔하다.</p>
+<p style="margin-bottom:0">여기까지 '무엇을 보따리에 어떻게 담는가'를 봤다. 다음 편(Act 4) — 이제 그 보따리를 들고 <strong>도구로 루프를 도는 것, 그게 바로 '에이전트'</strong>다.</p>
+</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div><div class="card"><ol class="notes">
+<li>훅: 거대 코드베이스 — 전부 보따리에 못 넣는다. 두 길이 갈린다.</li>
+<li>RAG 정의 — 임베딩 검색으로 청크 미리 채우기. 빠름 vs stale·청크·빗나감.</li>
+<li>just-in-time 정의 — 참조만 들고 grep/glob, head/tail로 그때그때. 신선·정확 vs 느림.</li>
+<li>메타데이터가 신호 — test/test_utils.py vs src/core_logic/ 같은 이름도 의미가 다르다.</li>
+<li>하이브리드 — 안정적인 건 미리(CLAUDE.md), 동적인 건 그때그때(grep). RAG가 항상 답은 아님 강조.</li>
+<li>다음 편(Act4) 예고: 도구로 루프를 도는 게 에이전트다.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 9강</footer>
+</div></body></html>

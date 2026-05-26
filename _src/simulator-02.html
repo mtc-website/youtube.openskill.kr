@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시뮬레이터 · 2강 — 토큰과 의미 좌표</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px 90px;}
+.hero{margin:0 -20px 22px;padding:46px 20px 36px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:880px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(24px,4vw,34px);margin:13px 0 8px;font-weight:800;letter-spacing:-.025em;}
+.hero p{margin:0;opacity:.92;font-size:15px;}
+.disc{display:flex;gap:10px;align-items:flex-start;background:#fff8ef;border:1px solid #f3dcb8;color:#8a5a1e;border-radius:12px;padding:12px 15px;font-size:13.5px;margin:0 0 22px;}
+.disc b{color:#7a4d12;}
+.backlinks{display:flex;gap:8px;margin:0 0 22px;font-size:13px;}
+.backlinks a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:7px 12px;border-radius:10px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px;box-shadow:var(--shadow);margin:0 0 22px;}
+.card h2{font-size:18px;font-weight:800;margin:0 0 4px;letter-spacing:-.02em;}
+.card .desc{color:var(--muted);font-size:13.5px;margin:0 0 16px;}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0;}
+textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:inherit;font-size:15px;resize:vertical;min-height:62px;color:var(--ink);background:#fcfcfb;}
+textarea:focus{outline:none;border-color:var(--accent2);}
+button{font-family:inherit;font-size:13.5px;font-weight:700;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 14px;border-radius:10px;cursor:pointer;transition:.13s;}
+button:hover{border-color:var(--accent2);}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+button.primary:hover{background:#5b4cf0;}
+button.ghost{background:#f4f3fb;color:var(--accent);}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+.seg button{border:none;border-radius:0;}
+.seg button.on{background:var(--accent);color:#fff;}
+.preset{font-size:12.5px;color:var(--muted);font-weight:600;padding:6px 11px;}
+.tokens{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px;min-height:44px;align-items:center;}
+.chip{padding:7px 9px;border-radius:9px;font-size:14px;font-weight:600;border:1px solid rgba(0,0,0,.05);white-space:pre;position:relative;}
+.chip .lead{opacity:.45;font-weight:400;margin-right:1px;}
+.chip.char{background:#eef0f4 !important;color:#5a6072;}
+.stat{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);}
+.stat div{font-size:13px;color:var(--muted);}
+.stat b{display:block;font-size:22px;color:var(--ink);font-weight:800;line-height:1.2;}
+.hl{background:#fff3b0;padding:0 2px;border-radius:3px;}
+.straw{font-size:30px;font-weight:800;letter-spacing:1px;margin:6px 0;}
+.straw .r{color:var(--warn);}
+.note{font-size:13.5px;color:var(--muted);background:#faf9f6;border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-top:14px;}
+.map-wrap{position:relative;width:100%;}
+svg{width:100%;height:auto;display:block;background:#fcfcfd;border:1px solid var(--line);border-radius:14px;}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:12.5px;color:var(--muted);}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
+.info{margin-top:12px;font-size:14px;min-height:24px;}
+.info b{color:var(--accent);}
+circle.pt{cursor:pointer;transition:.12s;}
+text.lbl{font-size:12px;font-weight:600;fill:var(--ink);pointer-events:none;font-family:"Pretendard",sans-serif;}
+.dim{opacity:.18;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px;}
+@media(max-width:560px){.straw{font-size:24px;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="in">
+<span class="tag">시뮬레이터 · 2강</span>
+<h1>AI는 토큰과 좌표로 본다</h1>
+<p>문장이 어떻게 토큰으로 쪼개지는지, 그리고 의미가 어떻게 좌표가 되는지 직접 만져보세요.</p>
+</div></header>
+
+<div class="wrap">
+
+<div class="disc">⚠️ <div><b>개념 비유입니다.</b> 여기 토크나이저와 의미 지도는 이해를 돕기 위한 단순 모형이에요. 실제 BPE 토크나이저의 분할과 학습된 임베딩 좌표와는 다릅니다.</div></div>
+
+<div class="backlinks">
+  <a href="lesson_02.html">← 2강 수업으로</a>
+  <a href="index.html">목차</a>
+</div>
+
+<!-- ============ A. 토크나이저 ============ -->
+<div class="card">
+  <h2>① 토크나이저 — 모델은 글자가 아니라 '토큰'을 본다</h2>
+  <p class="desc">문장을 입력하고 <b>토큰화</b>를 눌러보세요. 색칠된 덩어리 하나하나가 모델이 보는 단위(토큰)입니다.</p>
+
+  <div class="row">
+    <span class="preset">예시:</span>
+    <button class="ghost" data-ex="Tokenization makes language models cheaper.">영어 문장</button>
+    <button class="ghost" data-ex="토큰화는 언어 모델을 더 비싸게 만든다.">한글 문장</button>
+    <button class="ghost" data-ex="strawberry">strawberry</button>
+    <button class="ghost" data-ex="1234567890">숫자 1234567890</button>
+  </div>
+
+  <textarea id="inp">The quick brown fox jumps over the lazy dog.</textarea>
+
+  <div class="row">
+    <button class="primary" id="tokBtn">토큰화 ▶</button>
+    <div class="seg" id="modeSeg">
+      <button data-mode="token" class="on">토큰 보기</button>
+      <button data-mode="char">글자 보기(사람)</button>
+    </div>
+  </div>
+
+  <div class="tokens" id="tokens"></div>
+
+  <div class="stat" id="stat"></div>
+  <div class="note" id="tokNote">💡 같은 뜻이라도 <b>한글이 영어보다 토큰이 더 많이</b> 나오는 경우가 흔해요. 토큰 수는 곧 <b>비용·컨텍스트 길이</b>의 단위라서, 토큰이 많을수록 비싸지고 길어집니다. '글자 보기'로 바꿔보면, 사람은 글자를 보지만 모델은 그 글자들이 뭉친 토큰을 본다는 차이가 보여요.</div>
+</div>
+
+<!-- ============ B. strawberry 실험 ============ -->
+<div class="card">
+  <h2>② strawberry 실험 — 왜 'r 개수'를 틀릴까</h2>
+  <p class="desc">사람은 글자를 하나씩 셀 수 있지만, 모델에게 글자는 토큰 안에 숨어 있습니다.</p>
+
+  <div class="row">
+    <button class="ghost" id="humanBtn">사람처럼 글자로 보기</button>
+    <button class="ghost" id="modelBtn">모델처럼 토큰으로 보기</button>
+  </div>
+
+  <div class="straw" id="strawView">strawberry</div>
+  <div class="info" id="strawInfo">버튼을 눌러 사람과 모델이 'strawberry'를 어떻게 보는지 비교해보세요.</div>
+</div>
+
+<!-- ============ C. 의미 지도 ============ -->
+<div class="card">
+  <h2>③ 의미 지도 — 비슷한 뜻은 가까운 좌표가 된다</h2>
+  <p class="desc">단어(점)를 클릭하면 의미가 가까운 이웃이 함께 빛납니다. 비슷한 뜻일수록 좌표가 가깝다는 게 임베딩의 직관이에요.</p>
+
+  <div class="row">
+    <button class="primary" id="analogyBtn">king − man + woman ≈ ? 보기</button>
+    <button class="ghost" id="resetMap">초기화</button>
+  </div>
+
+  <div class="map-wrap">
+    <svg id="map" viewBox="0 0 600 420" role="img" aria-label="의미 좌표 지도">
+      <defs>
+        <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L7,3 L0,6 z" fill="#6d5efc"></path>
+        </marker>
+      </defs>
+      <g id="lines"></g>
+      <g id="pts"></g>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot" style="background:#e0556b"></i>동물</span>
+    <span><i class="dot" style="background:#e6963c"></i>음식</span>
+    <span><i class="dot" style="background:#16a394"></i>기술</span>
+    <span><i class="dot" style="background:#d6478a"></i>왕족·사람</span>
+    <span><i class="dot" style="background:#6d5efc"></i>감정</span>
+  </div>
+  <div class="info" id="mapInfo">아무 단어나 클릭해보세요.</div>
+</div>
+
+<footer>메타코딩 「에이전트 개념서」 · 시뮬레이터 2강 — 토큰 &amp; 임베딩 (개념 비유)</footer>
+</div>
+
+<script>
+/* ===================== A. 토크나이저 ===================== */
+const PALETTE=['#dfe9ff','#e6dcff','#ffe3ef','#ffe8d4','#d9f5ec','#e9f0d4','#ffe1e1','#dff1ff'];
+const KNOWN={strawberry:['straw','berry'],tokenization:['token','ization'],tokenisation:['token','isation'],computer:['comput','er'],language:['lang','uage'],models:['model','s'],makes:['make','s'],cheaper:['cheap','er'],jumps:['jump','s']};
+function splitWord(w){
+  const lo=w.toLowerCase();
+  if(KNOWN[lo]) return KNOWN[lo];
+  if(w.length<=4) return [w];
+  for(const suf of ['ization','tion',' ing','ing','ment','ness','ies','ed','er','ly','s']){
+    const s=suf.trim();
+    if(lo.length>s.length+2 && lo.endsWith(s)) return [w.slice(0,w.length-s.length), w.slice(w.length-s.length)];
+  }
+  const out=[]; for(let k=0;k<w.length;k+=4) out.push(w.slice(k,k+4)); return out;
+}
+function tokenize(text){
+  const toks=[]; let i=0, lead=false;
+  while(i<text.length){
+    const ch=text[i];
+    if(ch===' '){ lead=true; i++; continue; }
+    if(ch==='\n'){ toks.push({core:'⏎',lead:false,cls:'punct'}); i++; lead=false; continue; }
+    if(/[가-힣]/.test(ch)){ toks.push({core:ch,lead,cls:'hangul'}); lead=false; i++; continue; }
+    if(/[0-9]/.test(ch)){ toks.push({core:ch,lead,cls:'digit'}); lead=false; i++; continue; }
+    if(/[a-zA-Z]/.test(ch)){
+      let j=i; while(j<text.length && /[a-zA-Z]/.test(text[j])) j++;
+      const parts=splitWord(text.slice(i,j));
+      parts.forEach((p,idx)=> toks.push({core:p, lead:(idx===0&&lead), cls:'word'}));
+      lead=false; i=j; continue;
+    }
+    toks.push({core:ch,lead,cls:'punct'}); lead=false; i++;
+  }
+  return toks;
+}
+let curMode='token';
+function render(){
+  const text=document.getElementById('inp').value;
+  const box=document.getElementById('tokens'); box.innerHTML='';
+  if(curMode==='char'){
+    [...text].forEach(c=>{
+      const s=document.createElement('span'); s.className='chip char';
+      s.textContent=(c===' ')?'␣':(c==='\n'?'⏎':c); box.appendChild(s);
+    });
+    document.getElementById('stat').innerHTML=
+      `<div><b>${[...text].length}</b>글자 (사람이 보는 단위)</div>`;
+    return;
+  }
+  const toks=tokenize(text);
+  toks.forEach((t,idx)=>{
+    const s=document.createElement('span'); s.className='chip';
+    s.style.background=PALETTE[idx%PALETTE.length];
+    if(t.lead){ const l=document.createElement('span'); l.className='lead'; l.textContent='␣'; s.appendChild(l); }
+    s.appendChild(document.createTextNode(t.core));
+    box.appendChild(s);
+  });
+  const chars=[...text.replace(/\s/g,'')].length;
+  const ratio=toks.length? (chars/toks.length).toFixed(2):'0';
+  document.getElementById('stat').innerHTML=
+    `<div><b>${toks.length}</b>토큰 (모델이 보는 단위)</div>`+
+    `<div><b>${[...text].length}</b>글자</div>`+
+    `<div><b>${ratio}</b>글자 / 토큰</div>`;
+}
+document.getElementById('tokBtn').onclick=render;
+document.getElementById('inp').addEventListener('input',()=>{ if(document.getElementById('tokens').children.length) render(); });
+document.querySelectorAll('[data-ex]').forEach(b=> b.onclick=()=>{ document.getElementById('inp').value=b.dataset.ex; render(); });
+document.querySelectorAll('#modeSeg button').forEach(b=> b.onclick=()=>{
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); curMode=b.dataset.mode; render();
+});
+
+/* ===================== B. strawberry ===================== */
+const sv=document.getElementById('strawView'), si=document.getElementById('strawInfo');
+document.getElementById('humanBtn').onclick=()=>{
+  sv.innerHTML='strawberry'.split('').map(c=> c==='r'?`<span class="r">r</span>`:c).join('');
+  si.innerHTML='👁️ 사람은 글자를 하나씩 본다 → <b>r은 3개</b>. 세는 게 쉽다.';
+};
+document.getElementById('modelBtn').onclick=()=>{
+  const parts=KNOWN['strawberry'];
+  sv.innerHTML=parts.map((p,i)=>`<span class="chip" style="font-size:20px;background:${PALETTE[i%PALETTE.length]}">${p}</span>`).join(' ');
+  si.innerHTML='🤖 모델은 <b>[straw][berry]</b> 두 덩어리로 본다. 글자 r은 토큰 <i>안에</i> 숨어 보이지 않아서, 개수를 정확히 세기 어렵다 — 그래서 "2개"처럼 틀리곤 한다.';
+};
+
+/* ===================== C. 의미 지도 ===================== */
+const WORDS=[
+  {l:'cat',x:95,y:80,g:'animal'},{l:'dog',x:150,y:110,g:'animal'},{l:'lion',x:105,y:140,g:'animal'},
+  {l:'tiger',x:165,y:80,g:'animal'},{l:'고양이',x:90,y:115,g:'animal'},{l:'강아지',x:160,y:150,g:'animal'},
+  {l:'apple',x:455,y:80,g:'food'},{l:'banana',x:515,y:120,g:'food'},{l:'strawberry',x:475,y:150,g:'food'},
+  {l:'사과',x:445,y:115,g:'food'},{l:'딸기',x:515,y:80,g:'food'},
+  {l:'computer',x:105,y:330,g:'tech'},{l:'code',x:160,y:305,g:'tech'},{l:'robot',x:95,y:360,g:'tech'},
+  {l:'AI',x:170,y:335,g:'tech'},{l:'코드',x:150,y:370,g:'tech'},{l:'로봇',x:90,y:300,g:'tech'},
+  {l:'happy',x:460,y:310,g:'emotion'},{l:'sad',x:515,y:345,g:'emotion'},{l:'angry',x:450,y:360,g:'emotion'},
+  {l:'기쁨',x:515,y:300,g:'emotion'},{l:'슬픔',x:470,y:370,g:'emotion'},
+  {l:'king',x:300,y:180,g:'royal'},{l:'queen',x:340,y:190,g:'royal'},{l:'man',x:270,y:240,g:'royal'},
+  {l:'woman',x:310,y:250,g:'royal'},{l:'prince',x:360,y:165,g:'royal'},{l:'왕',x:280,y:205,g:'royal'},{l:'여왕',x:352,y:215,g:'royal'}
+];
+const GC={animal:'#e0556b',food:'#e6963c',tech:'#16a394',royal:'#d6478a',emotion:'#6d5efc'};
+const SVGNS='http://www.w3.org/2000/svg';
+const ptsG=document.getElementById('pts'), linesG=document.getElementById('lines'), mapInfo=document.getElementById('mapInfo');
+WORDS.forEach((w,i)=>{
+  const c=document.createElementNS(SVGNS,'circle');
+  c.setAttribute('cx',w.x); c.setAttribute('cy',w.y); c.setAttribute('r',7);
+  c.setAttribute('fill',GC[w.g]); c.setAttribute('class','pt'); c.dataset.i=i;
+  ptsG.appendChild(c);
+  const t=document.createElementNS(SVGNS,'text');
+  t.setAttribute('x',w.x+10); t.setAttribute('y',w.y+4); t.setAttribute('class','lbl'); t.textContent=w.l;
+  t.dataset.i=i; ptsG.appendChild(t);
+  c.addEventListener('click',()=>selectWord(i));
+});
+function clearMap(){ linesG.innerHTML=''; ptsG.querySelectorAll('.pt,.lbl').forEach(e=>e.classList.remove('dim')); }
+function dist(a,b){ return Math.hypot(a.x-b.x,a.y-b.y); }
+function selectWord(i){
+  clearMap();
+  const w=WORDS[i];
+  const others=WORDS.map((o,j)=>({j,d:dist(w,o)})).filter(o=>o.j!==i).sort((a,b)=>a.d-b.d).slice(0,3);
+  const near=new Set([i,...others.map(o=>o.j)]);
+  ptsG.querySelectorAll('.pt,.lbl').forEach(e=>{ if(!near.has(+e.dataset.i)) e.classList.add('dim'); });
+  others.forEach(o=>{
+    const ln=document.createElementNS(SVGNS,'line');
+    ln.setAttribute('x1',w.x); ln.setAttribute('y1',w.y);
+    ln.setAttribute('x2',WORDS[o.j].x); ln.setAttribute('y2',WORDS[o.j].y);
+    ln.setAttribute('stroke',GC[w.g]); ln.setAttribute('stroke-width','1.6'); ln.setAttribute('stroke-dasharray','3 3'); ln.setAttribute('opacity','.6');
+    linesG.appendChild(ln);
+  });
+  mapInfo.innerHTML=`<b>${w.l}</b> 와(과) 의미가 가까운 단어: ${others.map(o=>WORDS[o.j].l).join(', ')} — 비슷한 뜻이라 좌표도 가깝다.`;
+}
+function arrow(a,b){
+  const ln=document.createElementNS(SVGNS,'line');
+  ln.setAttribute('x1',a.x); ln.setAttribute('y1',a.y); ln.setAttribute('x2',b.x); ln.setAttribute('y2',b.y);
+  ln.setAttribute('stroke','#6d5efc'); ln.setAttribute('stroke-width','2.2'); ln.setAttribute('marker-end','url(#arrow)');
+  linesG.appendChild(ln);
+}
+function find(l){ const i=WORDS.findIndex(w=>w.l===l); return {i,w:WORDS[i]}; }
+document.getElementById('analogyBtn').onclick=()=>{
+  clearMap();
+  const king=find('king').w, man=find('man').w, woman=find('woman').w, queen=find('queen').w;
+  const keep=new Set(['king','man','woman','queen']);
+  ptsG.querySelectorAll('.pt,.lbl').forEach(e=>{ if(!keep.has(WORDS[+e.dataset.i].l)) e.classList.add('dim'); });
+  arrow(man,king);
+  arrow(woman,queen);
+  mapInfo.innerHTML='👑 <b>man→king</b> 화살표와 <b>woman→queen</b> 화살표가 평행해요. "왕족이 된다"는 의미 변화가 좌표 위에서 <b>같은 이동</b>으로 나타나죠. 그래서 <b>king − man + woman ≈ queen</b>. 의미가 좌표(벡터)로 다뤄진다는 증거예요.';
+};
+document.getElementById('resetMap').onclick=()=>{ clearMap(); mapInfo.textContent='아무 단어나 클릭해보세요.'; };
+
+/* 초기 렌더 */
+render();
+</script>
+</body>
+</html>

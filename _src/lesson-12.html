@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>왜 캐릭터를 나누는가</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<header class="hero"><div class="in"><span class="tag">ACT 4 · 12강</span><h1>왜 캐릭터를 나누는가</h1><div class="topic">서브에이전트 = 깨끗한 시야</div><div class="msg">나누는 1번 목적은 병렬이 아니라 '컨텍스트 분리'다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_11.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_13.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>서브에이전트가 어떻게 메인의 컨텍스트를 깨끗하게 유지하는지 원리를 안다.</li>
+<li>서브는 세부 과정을 다 넘기지 않고 <strong>요약(1,000~2,000토큰)만</strong> 반환한다는 점을 이해한다.</li>
+<li>메인은 계획·합성, 서브는 탐색·도구 사용 — 관심사 분리의 구조를 그릴 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>큰 리서치를 맡았다고 합시다. 후보 열 개를 각각 깊게 조사하고, 비교하고, 결론을 내야 합니다. 가장 단순한 방법은 하나의 에이전트가 전부 — 검색 결과, 읽은 문서, 중간 메모 — 를 한 컨텍스트(보따리)에 쌓는 것입니다.</p>
+<p>문제는 보따리가 금세 <strong>오염</strong>된다는 점입니다. 후보 3번을 조사하다 나온 잡다한 검색 찌꺼기가, 후보 7번을 판단할 때도 계속 시야에 끼어 있습니다. 보따리는 부풀고, 신호는 잡음에 묻히고, 모델은 길을 잃습니다.</p>
+<p>해법은 일을 <strong>나누는</strong> 것입니다. 그런데 여기서 가장 흔한 오해를 먼저 깨야 합니다 — 나누는 진짜 이유는 '빨라지려고'가 아닙니다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>(a) 서브에이전트 — 깊게 일하고, 요약만 돌려준다</h3>
+<p>서브에이전트는 <strong>깨끗한 별도의 컨텍스트</strong>에서 자기 임무를 깊게 수행합니다. 검색하고, 문서를 잔뜩 읽고, 도구를 여러 번 돌리죠. 그 과정에서 서브의 보따리는 한껏 부풀어 오릅니다. 하지만 메인에게는 그 난장판을 통째로 넘기지 않습니다. 핵심만 추린 <strong>1,000~2,000토큰짜리 요약</strong>만 반환합니다. 그래서 메인의 보따리는 서브의 세부 탐색으로 더러워지지 않습니다.</p>
+
+<h3>(b) ★ 나누는 1번 목적 = 컨텍스트 분리</h3>
+<p>여기가 이 강의 심장입니다. 사람들은 "에이전트를 여러 개 띄우면 동시에 일하니까 빠르겠지"라고 생각합니다. 하지만 <strong>나누는 첫 번째 목적은 병렬이 아니라 컨텍스트 분리</strong>입니다. 각 서브가 자기만의 깨끗한 시야에서 일하고 핵심만 돌려주기 때문에, 메인의 보따리가 오염되지 않는 것 — 이게 진짜 이유입니다. <strong>병렬은 그 위에 얹히는 보너스</strong>일 뿐입니다.</p>
+
+<div class="box principle"><span class="lab">핵심 — 이것만 가져가도 됩니다</span>
+<p><strong>서브에이전트를 나누는 1번 목적은 '병렬'이 아니라 '컨텍스트 분리'다.</strong></p>
+<p>각 서브는 깨끗한 컨텍스트에서 깊게 일하고, 1,000~2,000토큰 요약만 메인에 반환한다. 덕분에 메인 보따리가 세부 탐색으로 더러워지지 않는다. 병렬 처리는 그 위에 얹히는 보너스다.</p>
+</div>
+
+<h3>(c) 관심사 분리 — 메인은 합성, 서브는 탐색</h3>
+<p>역할도 깔끔히 갈립니다. <strong>메인</strong>은 고수준 <strong>계획과 합성</strong>을 맡습니다 — 무엇을 누구에게 시킬지 정하고, 돌아온 요약들을 엮어 결론을 만듭니다. <strong>서브</strong>는 <strong>탐색과 도구 사용</strong>이라는 지저분하고 토큰 많이 드는 일을 맡습니다. 이렇게 관심사를 나누면 메인은 큰 그림에 집중할 수 있고, 디테일은 각 서브의 폐쇄된 작업실 안에 머뭅니다.</p>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>전략 게임의 <strong>정찰 유닛</strong>을 떠올려 봅시다. 정찰병은 자기 <em>시야</em> 안에서만 맵을 밝히며 돌아다니고, 사령관(메인)에게는 "동쪽에 적 기지, 자원 적음" 같은 <strong>핵심 보고</strong>만 올립니다. 사령관이 정찰병이 본 모든 픽셀을 일일이 들여다보지는 않죠. 각 유닛은 자기 시야만 가집니다.</p>
+<p>혹은 포켓몬 배틀처럼, 상황에 맞는 포켓몬을 그때그때 <strong>교체 투입</strong>한다고 봐도 좋습니다. 물 타입이 필요한 국면엔 물 포켓몬을, 다음 국면엔 다른 포켓몬을. 각자 자기 역할의 시야에서 싸우고, 트레이너(메인)는 전체 판을 보며 누구를 내보낼지 정합니다. 핵심은 같습니다 — <strong>각 유닛은 자기 시야만 들고, 메인은 깨끗한 큰 그림을 유지</strong>합니다.</p>
+</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"여러 개 = 그냥 빨라지려고"</td><td class="o">1번 목적은 <strong>컨텍스트(시야) 분리</strong>다. 속도(병렬)는 보너스. 핵심은 메인 보따리를 깨끗하게 지키는 것.</td></tr>
+<tr><td class="x">"서브가 한 일의 결과를 다 가져온다"</td><td class="o">세부 과정은 서브 안에 두고, <strong>1,000~2,000토큰 요약만</strong> 반환한다. 그래야 분리가 의미를 가진다.</td></tr>
+<tr><td class="x">"에이전트가 많을수록 똑똑해진다"</td><td class="o">많을수록 <strong>오염·조율 비용</strong>이 늘 수 있다. 분리할 만한 이유가 있을 때 나누는 것이지, 많은 게 미덕은 아니다.</td></tr>
+</tbody></table>
+</section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>같은 리서치 과제를 두 구조로 돌린다고 상상해 봅시다.</p>
+<p><strong>① 단일 컨텍스트:</strong> 한 에이전트가 후보 열 개를 차례로 조사하며 모든 검색·문서·메모를 한 보따리에 쌓습니다. 후반부로 갈수록 보따리는 잡음으로 가득 차고, 앞에서 본 찌꺼기가 뒤 판단을 흐립니다.</p>
+<p><strong>② 서브 분리:</strong> 후보마다 서브에이전트가 자기 컨텍스트에서 깊게 조사하고, 메인엔 짧은 요약만 올립니다. 메인 보따리에는 열 개의 깔끔한 요약만 남습니다.</p>
+<p>두 경우의 <strong>메인 컨텍스트 오염도</strong>를 비교해 보세요. 같은 일을 했는데, 메인이 보는 화면의 '깨끗함'이 완전히 다릅니다. 그 차이가 곧 분리의 가치입니다.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>가운데 위에 <strong>메인 보따리</strong> 막대, 아래에 여러 개의 <strong>서브 보따리</strong> 막대를 둡니다. 각 막대는 채워진 토큰 양을 색으로 보여줍니다.</p>
+<p>'시작'을 누르면 서브 보따리들이 검색·읽기를 반복하며 <strong>쭉쭉 부풀어 오릅니다</strong>(빨갛게 차오름). 그동안 메인 보따리는 거의 비어 있습니다. 작업이 끝나면 각 서브에서 <strong>요약 캡슐</strong>(1,000~2,000토큰)이 톡 떨어져 나와 메인으로 올라가고, 부풀었던 서브 보따리는 사라집니다. 메인 막대는 작은 요약 몇 개만큼만 조금 채워집니다 — <span class="o">깨끗하게 유지</span>되는 거죠.</p>
+<p>비교 토글로 <strong>단일 컨텍스트 모드</strong>를 켜면, 모든 검색 찌꺼기가 메인 막대에 직접 쌓여 순식간에 빨갛게 포화되는 모습을 보여줍니다. 두 모드를 나란히 두면 "분리하면 메인이 깨끗하다"가 막대 색 하나로 와닿습니다.</p>
+</div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>캐릭터를 나누는 건 <strong>시야(컨텍스트)를 깨끗이 하려는 것</strong>이다. 서브는 깨끗한 컨텍스트에서 깊게 일하고 요약만 돌려주며, 병렬은 보너스다.</p>
+<p>다음 편 — 이제 능력을 붙일 차례입니다. 에이전트의 능력은 <strong>'스킬(아이템)'</strong>로 장착합니다.</p>
+</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div>
+<div class="card"><ol class="notes">
+<li>위에 '메인 보따리' 박스, 아래에 '서브 보따리' 박스 여러 개 그리기.</li>
+<li>서브 박스를 빨갛게 칠하며 "여기서 부푼다 — 검색·읽기·도구". 메인은 비워두기.</li>
+<li>서브→메인 화살표 위에 "요약 1,000~2,000토큰만" 적기.</li>
+<li>★ 별표 치고: "1번 목적 = 컨텍스트 분리. 병렬 = 보너스." 크게 강조.</li>
+<li>관심사 분리: 메인=계획·합성 / 서브=탐색·도구. 두 칸으로 정리.</li>
+<li>경고 한 줄: "많다고 똑똑 아님 — 오염·조율비용." 마무리.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 12강</footer>
+</div></body></html>

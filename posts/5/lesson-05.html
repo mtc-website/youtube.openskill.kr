@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="ko"><head>
+<!-- ======= Open Skill Diary theme adapter (injected) ======= -->
+<style id="osd-theme-adapter">
+  /* Reserve space for the floating bar — adapter does NOT touch the simulator's
+     own max-width / centering. If the simulator has .container { max-width: ...;
+     margin: 0 auto } it stays centered; if it has none, it stays full-width. */
+  body { padding-top: 56px !important; }
+
+  /* Allow page to grow naturally — many simulators set
+     html, body { height:100%; overflow:hidden } to lock viewport. The adapter
+     overrides this so floating bar is reachable via scroll. */
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    overflow-y: auto !important;
+  }
+
+  /* Bidirectional inversion: applied only when the source tone differs from
+     the selected blog theme. If they match, the original colors are kept
+     untouched. The wrapper isolates the filter from the floating bar. */
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] body { background: #f7f8fb !important; }
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] body { background: #0c1220 !important; }
+
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper {
+    filter: invert(0.92) hue-rotate(180deg);
+    min-height: 100vh;
+  }
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper img,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper video,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper canvas,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper img,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper video,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper canvas {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  /* Floating top bar — fixed, very high z-index, sits above wrapper */
+  #osd-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 2147483647;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 16px;
+    background: rgba(15, 22, 36, 0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: #e8eef9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
+                 "Noto Sans KR", sans-serif;
+    font-size: 13px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  html[data-osd-theme="light"] #osd-bar {
+    background: rgba(255,255,255,0.92);
+    border-bottom: 1px solid #e3e8ef;
+    color: #1a2332;
+    box-shadow: 0 1px 3px rgba(20,30,50,0.06), 0 4px 16px rgba(20,30,50,0.04);
+  }
+  #osd-bar a, #osd-bar button {
+    color: inherit; background: transparent; border: 1px solid currentColor;
+    border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    opacity: 0.85; transition: opacity .15s, transform .15s;
+    font-family: inherit;
+  }
+  #osd-bar a:hover, #osd-bar button:hover { opacity: 1; transform: translateY(-1px); }
+  #osd-bar .osd-bar__title { font-weight: 700; letter-spacing: -0.2px; opacity: 0.9;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #osd-bar .osd-bar__actions { display: flex; gap: 8px; flex-shrink: 0; }
+  #osd-bar .osd-bar__brand { font-weight: 700; font-size: 13px; opacity: 0.7; flex-shrink: 0; }
+  @media (max-width: 640px) {
+    #osd-bar { padding: 8px 10px; font-size: 12px; }
+    #osd-bar .osd-bar__title { display: none; }
+  }
+</style>
+<script>
+  (function(){
+    document.documentElement.setAttribute('data-osd-source-theme', 'light');
+    try {
+      var t = localStorage.getItem('blog-theme') || 'dark';
+      document.documentElement.setAttribute('data-osd-theme', t);
+    } catch(e){}
+  })();
+</script>
+<!-- ======= /theme adapter ======= -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>보따리가 무거우면 둔해진다 — Context Rot</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<!-- ======= OSD floating bar (injected) ======= -->
+<div id="osd-bar" role="navigation" aria-label="블로그 네비게이션">
+  <a href="../../index.html" class="osd-bar__brand" title="블로그 홈">◆ Diary</a>
+  <div class="osd-bar__title">보따리가 무거우면 둔해진다 — Context Rot</div>
+  <div class="osd-bar__actions">
+    <a href="../../index.html">← 목록</a>
+    <button type="button" id="osd-theme-toggle" aria-label="테마 전환">테마</button>
+  </div>
+</div>
+<!-- ======= /OSD floating bar ======= -->
+
+<script>
+  // Wrap body content so the light-mode filter applies only to wrapper, not to floating bar
+  (function(){
+    function wrap(){
+      var bar = document.getElementById('osd-bar');
+      var wrapper = document.createElement('div');
+      wrapper.id = 'osd-content-wrapper';
+      wrapper.style.cssText = 'transition: filter .25s;';
+      var nodes = Array.prototype.slice.call(document.body.childNodes);
+      nodes.forEach(function(n){ if (n === bar) return; wrapper.appendChild(n); });
+      document.body.appendChild(wrapper);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wrap, { once: true });
+    } else { wrap(); }
+  })();
+</script>
+
+<script>
+  (function(){
+    var btn = document.getElementById('osd-theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-osd-theme') || 'dark';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-osd-theme', next);
+      try { localStorage.setItem('blog-theme', next); } catch(e){}
+    });
+  })();
+</script>
+
+<header class="hero"><div class="in"><span class="tag">ACT 2 · 5강</span><h1>보따리가 무거우면 둔해진다</h1><div class="topic">Context rot / lost in the middle</div><div class="msg">보따리가 길수록 모델은 멍청해진다 — 특히 중간을 흘린다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_04.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_06.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>컨텍스트가 길어질수록 정확도가 떨어지는 현상(context rot)을 벤치마크 근거와 함께 설명할 수 있다.</li>
+<li>모델이 시작과 끝은 잘 보고 중간을 흘리는 'lost in the middle' 패턴과 그 원인을 설명할 수 있다.</li>
+<li>이 저하가 갑자기 무너지는 '절벽'이 아니라 완만한 '그래디언트'라는 점, 그래서 무너지는 길이를 예측하기 어렵다는 점을 구분할 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>긴 문서를 통째로 모델에게 주고, 그 문서 맨 끝에 "이 글을 요약하되 반드시 마지막 문장을 한국어 속담으로 끝내라" 같은 작은 지시를 슬쩍 숨겨 봅니다. 그리고 요약을 시켜 보면, 모델이 그 지시를 깜빡 잊고 그냥 평범하게 요약해 버리는 일이 종종 일어납니다.</p>
+<p>분명히 그 지시는 컨텍스트 윈도우 '안에' 들어 있었습니다. 자르거나 누락된 게 아닙니다. 모델은 분명 그 글자를 받았는데도, 마치 보지 못한 것처럼 행동합니다. 이상하지 않나요? 윈도우 안에 있으면 다 똑같이 보는 게 아니었나요?</p>
+<p>아닙니다. 이번 강의 메시지는 단호합니다. <strong>보따리가 무거울수록 모델은 둔해집니다.</strong> 특히 한가운데에 있는 정보를 잘 흘립니다. 4강에서 본 게 "길면 비싸진다"였다면, 이번엔 "길면 멍청해진다"입니다. 둘은 다른 문제이고, 둘 다 사실입니다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>1. context rot — 길수록 회수율이 떨어진다</h3>
+<p>'바늘 찾기(needle-in-a-haystack)' 벤치마크가 있습니다. 긴 건초더미(haystack) 같은 문맥 속에 특정 사실 한 조각(needle)을 숨겨 두고, 모델이 그걸 정확히 꺼내는지를 봅니다. 직관적으로는 윈도우 안에만 있으면 100% 찾아야 할 것 같습니다. 그러나 실제로는 컨텍스트가 길어질수록 회수율(찾아내는 비율)이 서서히 떨어집니다. 이 현상을 흔히 <strong>context rot</strong>(컨텍스트가 길어지며 성능이 '삭는' 현상)라고 부릅니다.</p>
+
+<h3>2. lost in the middle — 중간을 흘린다</h3>
+<p>저하는 위치에 따라 고르지 않습니다. 모델은 대체로 문맥의 <strong>시작과 끝은 잘 활용</strong>하지만, <strong>한가운데에 놓인 정보는 잘 흘립니다.</strong> 같은 needle이라도 앞이나 끝에 두면 잘 찾고, 정확히 중간에 묻어 두면 회수율이 뚝 떨어집니다. 이것이 'lost in the middle'입니다.</p>
+<p>왜 그럴까요? 두 가지가 함께 작용합니다. 하나는 RoPE 같은 위치 인코딩에 내재한 <strong>장기 거리 감쇠</strong> — 멀리 떨어진 관계일수록 신호가 약해지는 경향입니다. 또 하나는 학습 데이터 분포 문제입니다. 모델은 주로 <strong>짧은 시퀀스 위주</strong>로 학습되기 때문에, 아주 긴 거리의 의존 관계를 다루는 연습이 상대적으로 부족합니다. 그래서 긴 문맥의 중앙처럼 '멀고 묻힌' 자리의 정보를 약하게 다룹니다.</p>
+
+<h3>3. 18개 프런티어 모델 모두에서 확인됐다</h3>
+<p>이게 한두 모델의 약점이 아니라는 점이 중요합니다. Chroma의 2025년 연구는 GPT, Claude, Gemini 등 18개 프런티어 모델 전부에서 이 저하를 확인했습니다. 즉 context rot는 특정 회사의 버그가 아니라 현재 트랜스포머 기반 모델들이 공유하는 구조적 경향에 가깝습니다.</p>
+
+<h3>4. 절벽이 아니라 그래디언트다</h3>
+<p>그렇다고 "X 토큰을 넘으면 갑자기 바보가 된다"는 식의 <strong>딱딱한 절벽은 아닙니다.</strong> 저하는 길이에 따라 완만하게 진행되는 <strong>성능 그래디언트</strong>입니다. 이게 오히려 까다로운 점입니다. 명확한 경계선이 있다면 "그 선만 안 넘으면 안전"이라고 할 수 있을 텐데, 완만한 곡선이라 어느 길이에서 어떤 과제가 무너질지 미리 예측하기가 어렵습니다.</p>
+
+<h3>5. 전편의 '어텐션 예산'과 연결</h3>
+<p>이걸 4강의 그림과 이어 봅시다. 어텐션은 토큰마다 한정된 '예산'을 나눠 쓰는 셈입니다. 토큰을 더 넣을 때마다 그 예산을 조금씩 깎아 먹습니다. 그러니 길게 넣을수록 각 정보 조각이 받는 주목은 옅어지고, 특히 묻히기 쉬운 중간이 먼저 흐려집니다. 비싸지는 것(n²)과 둔해지는 것(rot)은 같은 뿌리 — '길이는 공짜가 아니다' — 에서 나온 두 얼굴입니다.</p>
+<div class="box principle"><span class="lab">핵심</span>
+컨텍스트는 길어질수록 회수율이 떨어지고(context rot), 특히 중간 정보를 흘립니다(lost in the middle). 이는 18개 프런티어 모델 전부에서 관측된 구조적 경향이며, 갑자기 무너지는 절벽이 아니라 예측하기 어려운 완만한 그래디언트입니다.
+</div>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>지나치게 긴 회의록을 떠올려 보세요. 사람들은 보통 회의록의 첫 안건(중요해 보이니까)과 마지막 결론(행동 항목이니까)은 기억합니다. 하지만 중간쯤에 끼어 있던 안건은 "그런 얘기도 했었나?" 하며 묻혀 버립니다. 모델의 lost in the middle도 정확히 이 모양입니다. 길수록 가운데가 묻힙니다.</p>
+<p>게임으로 비유하면 <strong>전장의 안개(fog of war)</strong>와 비슷합니다. 내 시야 가까이(시작·끝)는 또렷하지만, 멀리 떨어진 영역은 흐릿하게만 보여서 거기 무엇이 있었는지 놓치기 쉽습니다. 컨텍스트의 중간은 모델에게 그 흐릿한 안개 속 영역인 셈입니다. 다만 안개처럼 칼같이 시야 경계가 그어지는 게 아니라, 멀어질수록 점점 흐려지는 그라데이션이라는 점이 다릅니다 — 절벽이 아니라 그래디언트.</p>
+</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"윈도우 안에만 들어 있으면 모델이 다 본다."</td><td class="o">위치와 길이에 따라 회수율이 다르다. 윈도우 안에 있어도 중간에 묻히면 흘릴 수 있다(lost in the middle).</td></tr>
+<tr><td class="x">"더 크고 좋은 모델이면 이런 저하는 사라진다."</td><td class="o">정도의 차이일 뿐 사라지지 않는다. Chroma 2025에서 18개 프런티어 모델 전부에서 저하가 확인됐다.</td></tr>
+<tr><td class="x">"성능은 어떤 길이에서 절벽처럼 뚝 끊긴다."</td><td class="o">절벽이 아니라 완만한 그래디언트다. 그래서 무너지는 지점을 미리 예측하기 어렵다.</td></tr>
+</tbody></table>
+</section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>같은 needle 문장(예: "이 보고서의 비밀 코드는 <code>RAVEN-7</code>이다")을 준비합니다. 그리고 동일한 긴 문서를 세 벌 만들되, 이 문장을 각각 <strong>맨 앞 / 정확히 중간 / 맨 끝</strong>에 끼워 넣습니다. 모델에게 "비밀 코드가 뭐였지?"를 똑같이 물어보고, 세 경우의 정답률을 비교하세요.</p>
+<p>대개 앞과 끝은 잘 맞히고, 중간 버전에서 회수율이 떨어지는 걸 관찰하게 됩니다. 한 발 더 나아가, 문서 길이를 2배·4배로 늘려 같은 실험을 반복하면, 길이가 늘수록 전체 정답률이 완만하게 내려가는 'rot 곡선'을 직접 그려 볼 수 있습니다. 어디서 칼같이 끊기는 게 아니라 서서히 내려간다는 점에 주목하세요.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>위쪽에 <strong>needle 위치 선택</strong> 버튼(앞 / 중간 / 끝)과 <strong>문서 길이 슬라이더</strong>(짧게 ↔ 길게)를 둡니다. 아래에는 회수 정확도를 나타내는 <strong>막대그래프</strong>를 배치합니다.</p>
+<p>사용자가 위치를 '중간'으로 바꾸면 막대가 눈에 띄게 낮아지고, '앞'이나 '끝'이면 높아집니다. 동시에 길이 슬라이더를 오른쪽으로 밀수록 모든 막대가 함께 서서히 내려갑니다 — 단, 한 칸에서 0으로 곤두박질치는 게 아니라 완만하게 기울어지도록 애니메이션을 줘서 '절벽이 아닌 그래디언트'임을 강조합니다. 화면 하단 캡션: "윈도우 안에 있어도 위치·길이에 따라 회수율이 달라집니다. 특히 중간이 위험합니다."</p>
+</div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>컨텍스트는 길수록, 특히 한가운데가 흐려집니다. context rot와 lost in the middle은 18개 프런티어 모델 전부에서 보인 구조적 경향이며, 갑작스러운 절벽이 아니라 예측하기 어려운 완만한 그래디언트입니다.</p>
+<p><strong>다음 편 예고(Act 3) —</strong> 길면 비싸고(4강) 둔해진다(5강)면, 해법은 하나로 모입니다. 보따리를 그냥 채우는 게 아니라 <em>설계</em>하는 것. 6강에서는 좋은 컨텍스트가 무엇으로 이뤄지는지, 그 해부학을 들여다봅니다.</p>
+</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div>
+<div class="card"><ol class="notes">
+<li>긴 문서 끝에 작은 지시를 숨겨 두고 모델이 놓치는 시연으로 출발한다("윈도우 안에 있는데 왜 못 봤지?").</li>
+<li>needle-in-haystack 개념을 그림으로 그리고, 길이↑ → 회수율↓ = context rot를 곡선으로 판서한다.</li>
+<li>위치별 회수율 차이(앞·끝 ↑, 중간 ↓)를 'lost in the middle'로 명명하고, 원인 두 가지(RoPE 장기 감쇠, 짧은 시퀀스 학습 분포)를 적는다.</li>
+<li>Chroma 2025 — GPT·Claude·Gemini 등 18개 프런티어 모델 전부에서 확인됐음을 강조한다.</li>
+<li>"절벽 아님, 그래디언트임"을 굵게 적고, 그래서 무너지는 지점을 예측하기 어렵다는 함의를 덧붙인다.</li>
+<li>4강의 '어텐션 예산'과 연결해 마무리하고, 다음 편 "보따리를 설계한다"로 다리를 놓는다.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 5강</footer>
+</div></body></html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="ko"><head>
+<!-- ======= Open Skill Diary theme adapter (injected) ======= -->
+<style id="osd-theme-adapter">
+  /* Reserve space for the floating bar — adapter does NOT touch the simulator's
+     own max-width / centering. If the simulator has .container { max-width: ...;
+     margin: 0 auto } it stays centered; if it has none, it stays full-width. */
+  body { padding-top: 56px !important; }
+
+  /* Allow page to grow naturally — many simulators set
+     html, body { height:100%; overflow:hidden } to lock viewport. The adapter
+     overrides this so floating bar is reachable via scroll. */
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    overflow-y: auto !important;
+  }
+
+  /* Bidirectional inversion: applied only when the source tone differs from
+     the selected blog theme. If they match, the original colors are kept
+     untouched. The wrapper isolates the filter from the floating bar. */
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] body { background: #f7f8fb !important; }
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] body { background: #0c1220 !important; }
+
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper {
+    filter: invert(0.92) hue-rotate(180deg);
+    min-height: 100vh;
+  }
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper img,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper video,
+  html[data-osd-source-theme="dark"][data-osd-theme="light"] #osd-content-wrapper canvas,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper img,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper svg,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper video,
+  html[data-osd-source-theme="light"][data-osd-theme="dark"] #osd-content-wrapper canvas {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  /* Floating top bar — fixed, very high z-index, sits above wrapper */
+  #osd-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 2147483647;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 16px;
+    background: rgba(15, 22, 36, 0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: #e8eef9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
+                 "Noto Sans KR", sans-serif;
+    font-size: 13px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  html[data-osd-theme="light"] #osd-bar {
+    background: rgba(255,255,255,0.92);
+    border-bottom: 1px solid #e3e8ef;
+    color: #1a2332;
+    box-shadow: 0 1px 3px rgba(20,30,50,0.06), 0 4px 16px rgba(20,30,50,0.04);
+  }
+  #osd-bar a, #osd-bar button {
+    color: inherit; background: transparent; border: 1px solid currentColor;
+    border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    opacity: 0.85; transition: opacity .15s, transform .15s;
+    font-family: inherit;
+  }
+  #osd-bar a:hover, #osd-bar button:hover { opacity: 1; transform: translateY(-1px); }
+  #osd-bar .osd-bar__title { font-weight: 700; letter-spacing: -0.2px; opacity: 0.9;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #osd-bar .osd-bar__actions { display: flex; gap: 8px; flex-shrink: 0; }
+  #osd-bar .osd-bar__brand { font-weight: 700; font-size: 13px; opacity: 0.7; flex-shrink: 0; }
+  @media (max-width: 640px) {
+    #osd-bar { padding: 8px 10px; font-size: 12px; }
+    #osd-bar .osd-bar__title { display: none; }
+  }
+</style>
+<script>
+  (function(){
+    document.documentElement.setAttribute('data-osd-source-theme', 'light');
+    try {
+      var t = localStorage.getItem('blog-theme') || 'dark';
+      document.documentElement.setAttribute('data-osd-theme', t);
+    } catch(e){}
+  })();
+</script>
+<!-- ======= /theme adapter ======= -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>잘하는지 어떻게 아는가</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<!-- ======= OSD floating bar (injected) ======= -->
+<div id="osd-bar" role="navigation" aria-label="블로그 네비게이션">
+  <a href="../../index.html" class="osd-bar__brand" title="블로그 홈">◆ Diary</a>
+  <div class="osd-bar__title">잘하는지 어떻게 아는가</div>
+  <div class="osd-bar__actions">
+    <a href="../../index.html">← 목록</a>
+    <button type="button" id="osd-theme-toggle" aria-label="테마 전환">테마</button>
+  </div>
+</div>
+<!-- ======= /OSD floating bar ======= -->
+
+<script>
+  // Wrap body content so the light-mode filter applies only to wrapper, not to floating bar
+  (function(){
+    function wrap(){
+      var bar = document.getElementById('osd-bar');
+      var wrapper = document.createElement('div');
+      wrapper.id = 'osd-content-wrapper';
+      wrapper.style.cssText = 'transition: filter .25s;';
+      var nodes = Array.prototype.slice.call(document.body.childNodes);
+      nodes.forEach(function(n){ if (n === bar) return; wrapper.appendChild(n); });
+      document.body.appendChild(wrapper);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wrap, { once: true });
+    } else { wrap(); }
+  })();
+</script>
+
+<script>
+  (function(){
+    var btn = document.getElementById('osd-theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-osd-theme') || 'dark';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-osd-theme', next);
+      try { localStorage.setItem('blog-theme', next); } catch(e){}
+    });
+  })();
+</script>
+
+<header class="hero"><div class="in"><span class="tag">ACT 5 · 16강</span><h1>잘하는지 어떻게 아는가</h1><div class="topic">평가(Evals)</div><div class="msg">에이전트는 '느낌'이 아니라 재현 가능한 평가로 검증한다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_15.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="index.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>'느낌'이 아니라 재현 가능한 평가(eval)가 왜 반드시 필요한지 설명할 수 있다.</li>
+<li>대표 예시 + 좋은 예와 나쁜 예를 함께 넣어 경계를 분명히 하는 평가셋 구성법을 안다.</li>
+<li>평가 기준이 모델의 행동을 만든다는 것 — '평가 설계가 곧 행동 설계'임을 이해한다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>"음, 잘 도는 것 같아요." 에이전트를 만들다 보면 가장 자주 하게 되는 말이자, 가장 위험한 말이다. '같다'는 느낌은 측정이 아니다. 어제 잘 되던 것이 프롬프트 한 줄을 고친 뒤 조용히 망가져도, 느낌만으로는 알아챌 수 없다.</p>
+<p>14강에서 일을 나눠 시키고, 15강에서 깨지면 되돌렸다. 그런데 그렇게 만든 에이전트가 정말 '더 나아졌는지'는 어떻게 알까? 변경을 가할 때마다 좋아진 건지 나빠진 건지 모른다면, 우리는 어둠 속에서 핸들을 돌리는 셈이다.</p>
+<p>그 어둠을 밝히는 도구가 <strong>평가(Eval)</strong>다. 이 시리즈의 마지막 원리이자, 사실은 모든 개선의 출발점이다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>(a) eval = 재현 가능한 성능 측정</h3>
+<p>평가는 같은 입력에 대해 <strong>몇 번을 돌려도 같은 방식으로 채점되는</strong> 성능 측정이다. 만드는 법은 의외로 단순하다. ①실제 쓰임을 대표하는 예시 셋을 모으고, ②<strong>좋은 예와 나쁜 예를 둘 다</strong> 넣어 "여기까지는 합격, 여기부터는 불합격"이라는 경계를 분명히 하며, ③결과의 결정성(같은 입력→같은 판정)과 회귀(이전보다 나빠졌는지)를 추적한다. 나쁜 예가 없으면 모델이 "그냥 다 통과시키는" 식으로 점수만 높아질 수 있으므로, 경계를 긋는 나쁜 예가 특히 중요하다.</p>
+
+<h3>(b) 평가 기준이 행동을 만든다</h3>
+<div class="box principle"><span class="lab">핵심</span>
+<p>3강의 <strong>'추측 보상'</strong>을 기억하는가? 모델은 채점되는 방식대로 행동하도록 길들여진다. 평가에서 <strong>'모름(빈칸)'에 0점을 주고 틀린 답에도 0점을 준다면</strong>, 모델 입장에선 모른다고 말할 이유가 전혀 없다 — 어차피 0점이니 일단 <strong>찍는 게 합리적</strong>이다. 그렇게 우리는 의도치 않게 '잘 찍는 모델'을 길러낸다.</p>
+<p>반대로 모름엔 0점, 틀린 답엔 감점을 준다면 모델은 확신 없을 때 솔직히 모른다고 말하는 편이 유리해진다. 즉 <strong>평가 기준이 곧 모델의 행동을 빚는다.</strong> 그래서 평가 설계는 측정의 문제이기 이전에 <em>행동 설계</em>의 문제다. 무엇을 보상할지 정하는 순간, 에이전트가 어떤 성격이 될지가 정해진다.</p>
+</div>
+
+<h3>(c) 평가가 없으면 회귀를 모른다</h3>
+<p>평가셋이 없으면 가장 무서운 일이 벌어진다 — <strong>좋아 보이는 변화가 사실은 퇴보</strong>일 수 있는데, 그걸 알 방법이 없다. 새 프롬프트가 데모에선 멋지지만 평소 케이스 30개 중 8개를 망가뜨렸을 수도 있다. 재현 가능한 평가셋만이 "이번 변경은 +5, 이번은 -3"을 객관적으로 알려 준다. 평가는 개선의 나침반이다.</p>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>랭크 게임의 점수판을 떠올리자. 점수판 자체보다 더 중요한 건 <strong>채점 규칙</strong>이다. "모르겠으면 패스해도 감점 없음"인 게임과 "패스해도 죽음과 똑같이 감점"인 게임은, 같은 플레이어라도 전혀 다르게 플레이하게 만든다. 후자에선 모두가 무모하게 들이댄다 — 어차피 가만히 있어도 손해니까.</p>
+<p>채점 규칙을 바꾸는 순간 <strong>플레이 스타일 자체가 바뀐다.</strong> 에이전트의 평가 기준도 똑같다. 무엇에 점수를 주고 무엇에 벌점을 주느냐가, 에이전트가 신중한 성격이 될지 무모한 성격이 될지를 결정한다.</p>
+</div></section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"잘 되는 것 같으면 된 거 아닌가."</td><td class="o">평가가 없으면 <strong>회귀를 알 수 없다</strong>. 좋아 보이는 변화가 실은 퇴보일 수 있다.</td></tr>
+<tr><td class="x">"정확도만 높으면 좋은 모델이다."</td><td class="o"><strong>추측 보상의 함정</strong> — 모름에 페널티가 없으면 모델은 찍는다. 무엇을 채점하느냐가 행동을 만든다.</td></tr>
+<tr><td class="x">"평가는 다 만들고 나서 할 일이다."</td><td class="o"><strong>평가가 행동을 만든다</strong>. 평가 설계는 마지막이 아니라 출발점에 가깝다.</td></tr>
+</tbody></table></section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>같은 과제 셋(예: 사실 확인 질문 20개)에 대해, 채점 기준만 바꿔 두 번 평가해 보자. 후보 모델은 A(자신감 있게 다 찍는 모델)와 B(모를 땐 모른다 하는 신중한 모델).</p>
+<p><strong>규칙 1 — 모름=0점, 오답=0점:</strong> A는 모르는 것도 다 찍어 운 좋게 몇 개 맞히고, B는 모른다고 답해 그 문항에서 0점. 점수판에선 <strong>A가 '최선'</strong>으로 뜬다.</p>
+<p><strong>규칙 2 — 모름=0점, 오답=-1점:</strong> A의 무모한 오답들이 마이너스로 깎이고, B의 신중함이 손실을 막는다. 이번엔 <strong>B가 '최선'</strong>으로 뒤집힌다.</p>
+<p>모델도 과제도 그대로인데, <em>채점 규칙 하나로 '최선'의 정의가 뒤바뀐다.</em> 평가 기준이 곧 우리가 무엇을 좋은 행동이라 부를지를 정의한다는 것을 직접 보게 된다.</p>
+</div></section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>화면 중앙에 <strong>점수판(리더보드)</strong>이 있고, 모델 A·B·C가 같은 과제 셋을 푼 결과가 막대로 표시된다. 각 문항 칸은 정답(초록)·오답(빨강)·모름(회색)으로 칠해져 한눈에 패턴이 보인다.</p>
+<p>상단에 <strong>채점 규칙 슬라이더</strong>가 있다 — '모름 페널티' 값을 0에서 음수로 끌어내리고, '오답 페널티'를 조절한다. 슬라이더를 움직이면 점수판의 순위가 <strong>실시간으로 재정렬</strong>되며, 어떤 규칙에선 '잘 찍는 모델'이 1위였다가 다른 규칙에선 '신중한 모델'이 1위로 솟아오른다.</p>
+<p>오른쪽엔 '좋은 예 / 나쁜 예' 슬롯이 있어, 나쁜 예를 빼면 모든 모델 점수가 똑같이 천장에 붙어 변별이 사라지는 모습(경계 없는 평가의 무력함)을 보여 준다. 하단 캡션: <strong>"평가 기준을 바꾸면 '최선'이 바뀐다 — 평가 설계가 곧 행동 설계다."</strong></p>
+</div></section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 시리즈 마무리</div>
+<div class="box summary">
+<p>에이전트는 '느낌'이 아니라 <strong>재현 가능한 평가</strong>로 검증한다. 대표 예시에 좋은 예·나쁜 예를 함께 넣어 경계를 긋고, 결정성과 회귀를 추적한다. 그리고 핵심 — <strong>평가 기준이 모델의 행동을 만든다</strong>(추측 보상). 평가 설계가 곧 행동 설계다.</p>
+<p><strong>시리즈를 마치며:</strong> 컨텍스트를 깨끗하게 관리하고, 능력을 아이템처럼 동적으로 펼치고, 부대를 의존 없이 편성하고, 실패를 컨텍스트로 되먹이며, 평가로 검증한다 — 이 <strong>원리들은 모델이 바뀌어도 변하지 않는 evergreen</strong>이다. 이 원리들을 손으로 '실제로 만드는' 여정은 자매 시리즈 <strong>「바이브 코딩」</strong>에서 이어진다.</p>
+</div></section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div><div class="card"><ol class="notes">
+<li>"잘 도는 것 같다는 가장 위험한 말"로 훅 — 느낌 ≠ 측정.</li>
+<li>eval = 재현 가능한 측정. 대표 예시 + 좋은 예/나쁜 예로 경계 긋기 + 결정성·회귀 추적.</li>
+<li>핵심 강조: 평가 기준이 행동을 만든다 — 3강 추측 보상 연결, 모름에 0점이면 찍는다.</li>
+<li>평가 없으면 회귀를 모른다 — '좋아 보이는 변화 = 퇴보' 가능성.</li>
+<li>실험: 채점 규칙만 바꿔도 '최선' 모델이 A↔B로 뒤집힘을 판서.</li>
+<li>시리즈 마무리: 원리는 evergreen, '실제로 만드는 건' 바이브 코딩 시리즈 → index.html.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 16강 · 시리즈 完</footer>
+</div></body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>도구와 MCP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 100px;}
+.hero{margin:0 -22px 26px;padding:54px 22px 44px;color:#fff;background:radial-gradient(120% 140% at 12% 0%,#7c6cff 0%,#6d5efc 40%,#4b3fd1 100%);position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hero .in{max-width:860px;margin:0 auto;position:relative;}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:8px;}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.22;margin:14px 0 10px;font-weight:800;letter-spacing:-.025em;}
+.hero .topic{opacity:.85;font-size:14px;font-style:italic;}
+.hero .msg{margin:18px 0 0;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);padding:14px 16px;border-radius:12px;border-left:4px solid #fff;}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:0 0 30px;font-size:13px;}
+.nav a{color:var(--accent);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:8px 13px;border-radius:10px;transition:.15s;}
+.nav a:hover{border-color:var(--accent2);}.nav .mid{color:var(--muted);}
+section{margin:0 0 30px;}
+h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:34px 0 6px;}
+h2+.h{font-size:22px;font-weight:800;margin:0 0 14px;letter-spacing:-.02em;}
+h3{font-size:17px;font-weight:800;margin:22px 0 6px;letter-spacing:-.02em;}
+p{margin:10px 0;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.obj{list-style:none;padding:0;margin:0;}.obj li{padding:8px 0 8px 28px;position:relative;}.obj li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800;}
+.box{border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line);}
+.principle{background:#fbfaff;border-left:4px solid var(--accent);}
+.analogy{background:#f3fbf8;border-left:4px solid var(--ok);}
+.experiment{background:#fffaf3;border-left:4px solid #e6963c;}
+.sim{background:#f6f7fb;border-left:4px solid #7b8094;}
+.summary{background:linear-gradient(180deg,#fbfaff,#f4f1fe);border:1px solid #e7e1fb;border-left:5px solid var(--accent);font-weight:600;}
+.box .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:700;background:#faf9f6;}
+.x{color:var(--warn);font-weight:600;}.o{color:var(--ok);font-weight:600;}
+code{background:#eef0f4;padding:2px 6px;border-radius:6px;font-size:13px;}
+.notes{counter-reset:n;list-style:none;padding:0;margin:0;}
+.notes li{position:relative;padding:7px 0 7px 40px;border-bottom:1px solid var(--line);}
+.notes li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
+@media print{.hero{background:#5b4cf0!important;-webkit-print-color-adjust:exact;}.nav{display:none;}.card,.box{box-shadow:none;}}
+</style></head>
+<body>
+<header class="hero"><div class="in"><span class="tag">ACT 4 · 11강</span><h1>도구와 MCP</h1><div class="topic">모델이 세계와 연결되는 법</div><div class="msg">모델은 도구로만 바깥에 행동·조회한다. MCP는 그 도구를 꽂는 표준이다.</div></div></header>
+<div class="wrap">
+<div class="nav"><a href="lesson_10.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_12.html">다음 →</a></div>
+
+<section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
+<li>도구(함수 호출)가 실제로 어떻게 동작하는지, 그 '계약'이 무엇인지 설명할 수 있다.</li>
+<li>좋은 도구 설계 원칙 — 적고, 명확하고, 토큰 효율적이며, 겹치지 않게 — 을 안다.</li>
+<li>MCP가 무엇이고 왜 필요한지, 'USB-C 비유'로 누구에게나 설명할 수 있다.</li>
+</ul></div></section>
+
+<section><h2>HOOK</h2><div class="h">도입</div>
+<p>이상한 사실 하나. LLM은 인터넷을 직접 보지 못합니다. 데이터베이스에 접속하지도, 파일을 열지도 못합니다. 모델은 본질적으로 텍스트를 받아 텍스트를 내놓는 함수일 뿐이니까요. 그런데 우리는 에이전트가 검색하고, 코드를 실행하고, 메일을 보내는 걸 매일 봅니다.</p>
+<p>모델이 직접 못 하는데, 그 일은 어떻게 일어나는 걸까요? 답은 <strong>도구(tool)</strong>입니다. 모델은 "이 도구를 이렇게 써줘"라고 <em>요청</em>하고, 바깥의 런타임이 실제로 실행한 뒤 결과를 모델에게 돌려줍니다. 모델의 손발은 도구인 셈이죠.</p>
+<p>이번 강은 그 손발의 작동 원리, 좋은 손발을 설계하는 법, 그리고 그 손발을 표준 규격으로 꽂는 <strong>MCP</strong>를 다룹니다.</p>
+</section>
+
+<section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
+
+<h3>(a) 도구 사용(tool use / function calling)</h3>
+<p>구조는 이렇습니다. 모델은 "검색 도구를 <code>query="..."</code> 인자로 호출하겠다"는 <strong>구조화된 출력(보통 JSON)</strong>을 냅니다. 이건 아직 행동이 아니라 <em>요청</em>입니다. 그러면 모델 바깥의 <strong>런타임</strong>이 그 JSON을 받아 실제 함수를 실행하고, 결과를 다시 모델의 컨텍스트(보따리)에 넣어줍니다. 모델은 그 결과를 읽고 다음을 정합니다.</p>
+
+<div class="box principle"><span class="lab">핵심 — 도구의 작동</span>
+<p>모델은 <strong>"이 도구를, 이 인자로 호출하라"</strong>는 구조화된 출력(JSON)을 낸다. 직접 실행하지 않는다.</p>
+<p>실제 실행은 <strong>런타임</strong>이 하고, 그 결과를 모델의 컨텍스트에 다시 넣어준다. 모델의 손발 = 도구.</p>
+</div>
+
+<h3>(b) 도구의 '계약', 그리고 좋은 도구</h3>
+<p>모델이 도구를 옳게 쓰려면 <strong>계약(contract)</strong>이 명확해야 합니다. 도구의 <strong>이름</strong>, 받을 <strong>파라미터</strong>, 돌려줄 <strong>반환값</strong> — 이 세 가지가 또렷할수록 모델은 헷갈리지 않습니다. 모델은 이 계약 설명만 보고 언제 무엇을 쓸지 판단하기 때문이죠.</p>
+<p>좋은 도구는 이렇습니다. <strong>적고</strong>, <strong>명확하고</strong>, <strong>토큰 효율적</strong>이며, <strong>기능이 서로 겹치지 않습니다</strong>. 핵심 직관 하나 — <em>사람이 봐도 어떤 도구를 써야 할지 못 정하는 모호한 도구 묶음이라면, 모델도 못 정합니다.</em> 그래서 도구는 많다고 좋은 게 아니라, 많고 모호하면 오히려 해롭습니다.</p>
+
+<h3>(c) MCP — 도구를 꽂는 개방 표준</h3>
+<p><strong>MCP(Model Context Protocol)</strong>는 도구와 데이터 소스를 모델/클라이언트에 꽂기 위한 <strong>개방 표준</strong>입니다. 비유하자면 <strong>"도구·데이터의 USB-C"</strong>죠. 예전엔 기기마다 충전 단자가 제각각이었듯, 도구를 모델마다 다른 방식으로 붙여야 했습니다. MCP는 그 단자를 하나로 통일합니다.</p>
+
+<div class="box principle"><span class="lab">핵심 — MCP</span>
+<p>MCP = 도구·데이터 소스를 모델/클라이언트에 꽂는 <strong>개방 표준</strong>. "도구·데이터의 USB-C."</p>
+<p>한 번 MCP 서버를 만들면, 여러 클라이언트가 <strong>같은 방식으로</strong> 그 도구를 쓸 수 있다. 표준이라 재사용된다.</p>
+</div>
+</section>
+
+<section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
+<div class="box analogy"><span class="lab">비유</span>
+<p>RPG 캐릭터를 생각해 봅시다. 캐릭터(모델)는 맨손으로는 멀리 있는 적도, 닫힌 문도 어쩌지 못합니다. 대신 <strong>장비</strong>를 쥐면 활로 먼 적을 맞히고, <strong>포탈</strong>을 열면 다른 지역에 닿습니다. 도구가 바로 이 장비와 포탈입니다 — 캐릭터가 세계와 상호작용하는 손발이죠.</p>
+<p>그런데 장비마다 끼우는 슬롯 규격이 제각각이면 매번 새로 맞춰야 합니다. <strong>MCP는 그 장비를 꽂는 표준 단자</strong>입니다. 누가 만든 장비든 이 규격만 따르면 어떤 캐릭터에게도 끼울 수 있죠. 만든 사람은 한 번만 만들고, 여러 캐릭터가 같은 방식으로 씁니다.</p>
+</div>
+</section>
+
+<section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
+<table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
+<tr><td class="x">"모델이 DB나 웹을 직접 본다"</td><td class="o">모델은 텍스트만 다룬다. 외부에 닿는 일은 <strong>도구를 통해서만</strong> 일어난다. 모델은 '호출 요청'을 낼 뿐, 실행은 런타임이 한다.</td></tr>
+<tr><td class="x">"도구는 많을수록 좋다"</td><td class="o">많고 모호하면 오히려 <strong>해롭다</strong>. 사람도 못 고를 도구 묶음이면 모델도 못 고른다. 적고·명확한 게 좋다.</td></tr>
+<tr><td class="x">"MCP는 특정 회사 기능이다"</td><td class="o">MCP는 <strong>개방 표준</strong>이다. 한 번 만든 MCP 서버를 여러 클라이언트가 같은 방식으로 쓴다.</td></tr>
+</tbody></table>
+</section>
+
+<section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
+<div class="box experiment"><span class="lab">해보기</span>
+<p>같은 질문 — 예컨대 "지금 이 도시의 기온은?" — 을 두 조건으로 던져봅시다.</p>
+<p><strong>① 도구 없이:</strong> 모델은 기억에 의존해 그럴듯한 숫자를 말합니다. 하지만 실제 현재값을 알 길이 없으니 <em>헛소리(환각)</em>가 섞일 위험이 큽니다.</p>
+<p><strong>② 도구로:</strong> 모델이 날씨 조회 도구를 <code>city="..."</code>로 호출하고, 런타임이 실측값을 가져와 컨텍스트에 넣어줍니다. 모델은 그 <em>실측</em>을 근거로 답합니다.</p>
+<p>두 답을 비교해 보면, 도구가 '아는 척'을 '실제로 확인함'으로 바꾼다는 걸 체감하게 됩니다. 모델의 똑똑함이 아니라, <strong>세계에 닿는 통로</strong>가 답의 신뢰도를 만든다는 점.</p>
+</div>
+</section>
+
+<section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
+<div class="box sim"><span class="lab">화면</span>
+<p>왼쪽에 <strong>모델</strong> 박스, 오른쪽에 <strong>세계</strong>(웹·DB·파일). 둘 사이엔 처음엔 벽이 있습니다. '도구 없음' 모드에서 질문을 던지면 모델이 혼자 답하고, 답 옆에 <span class="x">⚠ 확인 불가</span> 배지가 붙습니다.</p>
+<p><strong>'도구 있음'</strong> 토글을 켜면 둘 사이에 도구 슬롯이 생깁니다. 모델이 JSON 호출 카드를 내면 → 런타임이 그 카드를 들고 세계로 갔다가 → 결과를 들고 돌아와 컨텍스트에 꽂습니다. 이제 답 옆엔 <span class="o">✓ 실측 근거</span> 배지가 붙습니다.</p>
+<p>하단엔 <strong>MCP 패널</strong>: 외부 도구(예: 캘린더, 검색)를 'USB-C 꽂듯' 슬롯에 드래그해 끼우면, 같은 인터페이스로 즉시 사용 가능해지는 모습을 보여줍니다. 도구를 너무 많이/모호하게 꽂으면 모델이 헷갈려 잘못 고르는 시나리오도 한 버튼으로 시연합니다.</p>
+</div>
+</section>
+
+<section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
+<div class="box summary">
+<p>모델은 <strong>도구로만</strong> 세계와 닿는다 — 직접 보지 않고 호출을 요청할 뿐이며, 실행은 런타임이 한다. 그 도구를 꽂는 <strong>개방 표준이 MCP</strong>이고, 좋은 도구는 적고·명확하고·겹치지 않는다.</p>
+<p>다음 편 — 일이 커지면 한 캐릭터로 다 못 합니다. 일을 나눠 맡기는 <strong>서브에이전트</strong>로 갑니다.</p>
+</div>
+</section>
+
+<section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div>
+<div class="card"><ol class="notes">
+<li>왼쪽 '모델', 오른쪽 '세계' 그리고 사이에 벽. "모델은 직접 못 본다" 적기.</li>
+<li>벽에 문 하나 그리고 '도구'라 쓰기. 화살표: 모델→JSON 호출→런타임 실행→결과 복귀.</li>
+<li>도구 계약 세 칸: 이름 · 파라미터 · 반환. "명확해야 옳게 쓴다."</li>
+<li>좋은 도구 4원칙: 적게 · 명확 · 토큰 효율 · 안 겹침. "사람도 못 고르면 모델도 못 고른다."</li>
+<li>MCP 적고 USB-C 그림. "도구·데이터의 표준 단자, 개방 표준, 한 번 만들면 여러 클라이언트가 재사용."</li>
+<li>마무리: "도구 = 손발, MCP = 표준 단자." 밑줄.</li>
+</ol></div></section>
+
+<footer>메타코딩 「에이전트 개념서」 · 11강</footer>
+</div></body></html>
