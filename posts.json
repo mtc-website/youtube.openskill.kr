@@ -23,12 +23,12 @@
     {
       "postId": 2,
       "id": "lesson-02",
-      "title": "AI는 세상을 토큰과 좌표로 본다",
+      "title": "그럴듯함의 함정",
       "date": "2026-05-26",
       "categories": [
         "ai-native"
       ],
-      "summary": "AI는 세상을 토큰과 좌표로 본다",
+      "summary": "그럴듯함의 함정",
       "filename": "posts/2/lesson-02.html",
       "tags": [],
       "engine": "html",
@@ -40,12 +40,12 @@
     {
       "postId": 3,
       "id": "lesson-03",
-      "title": "그럴듯함의 함정",
+      "title": "보따리가 무거우면 둔해진다",
       "date": "2026-05-26",
       "categories": [
         "ai-native"
       ],
-      "summary": "그럴듯함의 함정",
+      "summary": "보따리가 무거우면 둔해진다",
       "filename": "posts/3/lesson-03.html",
       "tags": [],
       "engine": "html",
@@ -57,7 +57,7 @@
     {
       "postId": 4,
       "id": "lesson-04",
-      "title": "보따리는 공짜가 아니다 — 어텐션 n²와 KV 캐시",
+      "title": "보따리 안에는 무엇이 들어가나",
       "date": "2026-05-26",
       "categories": [
         "ai-native"
@@ -74,7 +74,7 @@
     {
       "postId": 5,
       "id": "lesson-05",
-      "title": "보따리가 무거우면 둔해진다 — Context Rot",
+      "title": "AI는 세상을 토큰과 좌표로 본다",
       "date": "2026-05-26",
       "categories": [
         "ai-native"
@@ -91,7 +91,7 @@
     {
       "postId": 6,
       "id": "lesson-06",
-      "title": "보따리 안에는 무엇이 들어가나 — 컨텍스트 해부학",
+      "title": "보따리는 공짜가 아니다",
       "date": "2026-05-26",
       "categories": [
         "ai-native"
