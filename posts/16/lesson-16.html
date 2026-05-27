@@ -193,7 +193,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
 
 <h3>(b) 평가 기준이 행동을 만든다</h3>
 <div class="box principle"><span class="lab">핵심</span>
-<p>3강의 <strong>'추측 보상'</strong>을 기억하는가? 모델은 채점되는 방식대로 행동하도록 길들여진다. 평가에서 <strong>'모름(빈칸)'에 0점을 주고 틀린 답에도 0점을 준다면</strong>, 모델 입장에선 모른다고 말할 이유가 전혀 없다 — 어차피 0점이니 일단 <strong>찍는 게 합리적</strong>이다. 그렇게 우리는 의도치 않게 '잘 찍는 모델'을 길러낸다.</p>
+<p>2강의 <strong>'추측 보상'</strong>을 기억하는가? 모델은 채점되는 방식대로 행동하도록 길들여진다. 평가에서 <strong>'모름(빈칸)'에 0점을 주고 틀린 답에도 0점을 준다면</strong>, 모델 입장에선 모른다고 말할 이유가 전혀 없다 — 어차피 0점이니 일단 <strong>찍는 게 합리적</strong>이다. 그렇게 우리는 의도치 않게 '잘 찍는 모델'을 길러낸다.</p>
 <p>반대로 모름엔 0점, 틀린 답엔 감점을 준다면 모델은 확신 없을 때 솔직히 모른다고 말하는 편이 유리해진다. 즉 <strong>평가 기준이 곧 모델의 행동을 빚는다.</strong> 그래서 평가 설계는 측정의 문제이기 이전에 <em>행동 설계</em>의 문제다. 무엇을 보상할지 정하는 순간, 에이전트가 어떤 성격이 될지가 정해진다.</p>
 </div>
 
@@ -238,21 +238,11 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
 <section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div><div class="card"><ol class="notes">
 <li>"잘 도는 것 같다는 가장 위험한 말"로 훅 — 느낌 ≠ 측정.</li>
 <li>eval = 재현 가능한 측정. 대표 예시 + 좋은 예/나쁜 예로 경계 긋기 + 결정성·회귀 추적.</li>
-<li>핵심 강조: 평가 기준이 행동을 만든다 — 3강 추측 보상 연결, 모름에 0점이면 찍는다.</li>
+<li>핵심 강조: 평가 기준이 행동을 만든다 — 2강 추측 보상 연결, 모름에 0점이면 찍는다.</li>
 <li>평가 없으면 회귀를 모른다 — '좋아 보이는 변화 = 퇴보' 가능성.</li>
 <li>실험: 채점 규칙만 바꿔도 '최선' 모델이 A↔B로 뒤집힘을 판서.</li>
 <li>시리즈 마무리: 원리는 evergreen, '실제로 만드는 건' 바이브 코딩 시리즈 → index.html.</li>
 </ol></div></section>
 
 <footer>메타코딩 「에이전트 개념서」 · 16강 · 시리즈 完</footer>
-</div><!-- LEC_NAV_START -->
-<style id="lec-nav-style">#lec-nav{position:fixed;left:0;right:0;bottom:0;padding:10px 18px;background:rgba(15,15,18,0.93);color:#e8e8e8;display:flex;justify-content:space-between;align-items:center;gap:10px;font:13px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif;backdrop-filter:blur(10px);z-index:99999;border-top:1px solid rgba(255,255,255,0.08)}#lec-nav a{color:#7cb7ff;text-decoration:none;padding:6px 10px;border-radius:6px;transition:background .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:38vw}#lec-nav a:hover{background:rgba(124,183,255,0.14)}#lec-nav .lec-nav-mid{display:flex;gap:6px;align-items:center;flex-shrink:0}#lec-nav .lec-nav-empty{opacity:0.3;padding:6px 10px;white-space:nowrap;max-width:38vw;overflow:hidden;text-overflow:ellipsis}#lec-nav .lec-nav-toc{color:#bbb}#lec-nav .lec-nav-sim{background:rgba(255,200,80,0.18);color:#ffd277}#lec-nav .lec-nav-sim:hover{background:rgba(255,200,80,0.28)}body{padding-bottom:64px !important}</style>
-<nav id="lec-nav">
-<a href="../15/lesson-15.html" title="회귀와 피드백 루프">← L15</a>
-<div class="lec-nav-mid">
-<a href="../../index.html" class="lec-nav-toc">목차</a>
-</div>
-<span class="lec-nav-empty">마지막 →</span>
-</nav>
-<!-- LEC_NAV_END -->
-</body></html>
+</div></body></html>
