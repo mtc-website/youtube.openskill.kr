@@ -85,7 +85,7 @@
   })();
 </script>
 <!-- ======= /theme adapter ======= -->
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>보따리가 무거우면 둔해진다 — Context Rot</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI는 세상을 토큰과 좌표로 본다</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 :root{--bg:#f7f6f3;--panel:#fff;--ink:#1d2030;--muted:#6b7185;--line:#e9e7e1;--accent:#6d5efc;--accent2:#a78bfa;--soft:#f1effb;--warn:#c0552e;--ok:#16a394;--radius:16px;--shadow:0 1px 2px rgba(20,22,40,.04),0 8px 28px rgba(20,22,40,.06);}
@@ -170,99 +170,75 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:50px;}
   })();
 </script>
 
-<header class="hero"><div class="in"><span class="tag">ACT 2 · 5강</span><h1>보따리가 무거우면 둔해진다</h1><div class="topic">Context rot / lost in the middle</div><div class="msg">보따리가 길수록 모델은 멍청해진다 — 특히 중간을 흘린다.</div></div></header>
+<header class="hero"><div class="in"><span class="tag">ACT 2 · 5강</span><h1>AI는 세상을 토큰과 좌표로 본다</h1><div class="topic">토픽 · 토큰 &amp; 임베딩</div><div class="msg">모델은 글자가 아니라 토큰을 보고, 의미를 좌표(벡터)로 다룬다.</div></div></header>
 <div class="wrap">
 <div class="nav"><a href="lesson_04.html">← 이전</a><a class="mid" href="index.html">목차</a><a href="lesson_06.html">다음 →</a></div>
 
 <section><h2>LEARN</h2><div class="h">이 강을 보고 나면</div><div class="card"><ul class="obj">
-<li>컨텍스트가 길어질수록 정확도가 떨어지는 현상(context rot)을 벤치마크 근거와 함께 설명할 수 있다.</li>
-<li>모델이 시작과 끝은 잘 보고 중간을 흘리는 'lost in the middle' 패턴과 그 원인을 설명할 수 있다.</li>
-<li>이 저하가 갑자기 무너지는 '절벽'이 아니라 완만한 '그래디언트'라는 점, 그래서 무너지는 길이를 예측하기 어렵다는 점을 구분할 수 있다.</li>
+<li>토큰이 무엇이고, 왜 우리가 보는 '글자'와 다른 단위인지 설명할 수 있다.</li>
+<li>임베딩이 '의미의 좌표'라는 직관을 갖고, 비슷한 뜻은 왜 가까운 점이 되는지 이해한다.</li>
+<li>토큰 수가 곧 비용과 컨텍스트(=보따리) 길이의 단위라는 것을 알고, 영어와 한글의 토큰 차이를 가늠한다.</li>
 </ul></div></section>
 
 <section><h2>HOOK</h2><div class="h">도입</div>
-<p>긴 문서를 통째로 모델에게 주고, 그 문서 맨 끝에 "이 글을 요약하되 반드시 마지막 문장을 한국어 속담으로 끝내라" 같은 작은 지시를 슬쩍 숨겨 봅니다. 그리고 요약을 시켜 보면, 모델이 그 지시를 깜빡 잊고 그냥 평범하게 요약해 버리는 일이 종종 일어납니다.</p>
-<p>분명히 그 지시는 컨텍스트 윈도우 '안에' 들어 있었습니다. 자르거나 누락된 게 아닙니다. 모델은 분명 그 글자를 받았는데도, 마치 보지 못한 것처럼 행동합니다. 이상하지 않나요? 윈도우 안에 있으면 다 똑같이 보는 게 아니었나요?</p>
-<p>아닙니다. 이번 강의 메시지는 단호합니다. <strong>보따리가 무거울수록 모델은 둔해집니다.</strong> 특히 한가운데에 있는 정보를 잘 흘립니다. 4강에서 본 게 "길면 비싸진다"였다면, 이번엔 "길면 멍청해진다"입니다. 둘은 다른 문제이고, 둘 다 사실입니다.</p>
+<p>1강에서 우리는 모델이 매 호출마다 '보따리'를 통째로 건네받는다는 걸 봤다. 그렇다면 그 보따리에 담기는 알맹이, 즉 모델이 실제로 들여다보는 '단위'는 무엇일까? 여기 흔한 장면이 있다. 똑똑하기로 소문난 GPT에게 "strawberry에 알파벳 r이 몇 개 들어 있어?"라고 물으면, 의외로 자신 있게 "2개"라고 틀린 답을 내놓곤 한다. 사람이라면 글자를 하나하나 짚어 가며 s-t-r-a-w-b-e-r-r-y, 세 개라고 셀 수 있는 아주 쉬운 문제다. 그런데 왜 수억 개의 문서를 학습한 모델이 이걸 헷갈릴까?</p>
+<p>답은 모델이 우리가 보는 것과 '다른 단위'로 세상을 보기 때문이다. 우리는 글자(letter)를 보지만, 모델은 글자를 직접 보지 않는다. 모델은 텍스트를 <strong>토큰(token)</strong>이라는 덩어리로 잘게 부순 뒤, 그 덩어리를 본다. "strawberry"는 모델 입장에서 한 글자씩 늘어선 줄이 아니라, 예컨대 <code>straw</code>+<code>berry</code> 같은 몇 개의 조각으로 뭉쳐 들어온다. 덩어리 안에 r이 몇 개 들었는지는 모델에게 직접 보이지 않는 정보다.</p>
+<p>이 작은 사건 하나가 보따리의 정체를 푸는 열쇠다. AI가 무엇을 '단위'로 받는지, 그리고 그 단위를 어떻게 '의미'로 다루는지를 알면, 비용·컨텍스트 길이를 비롯한 거의 모든 주제가 자연스럽게 풀린다.</p>
 </section>
 
 <section><h2>PRINCIPLE</h2><div class="h">핵심 원리</div>
 
-<h3>1. context rot — 길수록 회수율이 떨어진다</h3>
-<p>'바늘 찾기(needle-in-a-haystack)' 벤치마크가 있습니다. 긴 건초더미(haystack) 같은 문맥 속에 특정 사실 한 조각(needle)을 숨겨 두고, 모델이 그걸 정확히 꺼내는지를 봅니다. 직관적으로는 윈도우 안에만 있으면 100% 찾아야 할 것 같습니다. 그러나 실제로는 컨텍스트가 길어질수록 회수율(찾아내는 비율)이 서서히 떨어집니다. 이 현상을 흔히 <strong>context rot</strong>(컨텍스트가 길어지며 성능이 '삭는' 현상)라고 부릅니다.</p>
+<h3>1. 토크나이저가 텍스트를 'subword 토큰'으로 쪼갠다</h3>
+<p>모델에 텍스트가 들어가기 전, <strong>토크나이저</strong>라는 전처리기가 문장을 토큰 단위로 분해한다. 토큰은 단어보다 작을 수도, 클 수도 있는 'subword(부분 단어)' 조각이다. 자주 등장하는 덩어리는 통째로 한 토큰이 되고, 드문 단어는 여러 조각으로 쪼개진다. 대표적인 방식이 BPE(Byte Pair Encoding)인데, 학습 데이터에서 함께 자주 붙어 나오는 글자쌍을 반복적으로 병합해 가며 어휘 사전을 만든다.</p>
+<p>그래서 영어에서 흔한 단어 <code>the</code>는 한 토큰이지만, 흔치 않은 조합은 두세 조각으로 나뉜다. 중요한 점은, 토큰 경계가 공백·접두사·접미사를 포함할 수 있고 글자 단위로 깔끔하게 떨어지지 않는다는 것이다. 한글은 학습 데이터에서 영어보다 비중이 작고 글자 구성도 복잡해, 같은 의미라도 더 잘게 쪼개지기 쉽다. 똑같은 한 문장을 영어로 쓸 때와 한글로 쓸 때 토큰 수가 달라지는 이유가 여기에 있다.</p>
 
-<h3>2. lost in the middle — 중간을 흘린다</h3>
-<p>저하는 위치에 따라 고르지 않습니다. 모델은 대체로 문맥의 <strong>시작과 끝은 잘 활용</strong>하지만, <strong>한가운데에 놓인 정보는 잘 흘립니다.</strong> 같은 needle이라도 앞이나 끝에 두면 잘 찾고, 정확히 중간에 묻어 두면 회수율이 뚝 떨어집니다. 이것이 'lost in the middle'입니다.</p>
-<p>왜 그럴까요? 두 가지가 함께 작용합니다. 하나는 RoPE 같은 위치 인코딩에 내재한 <strong>장기 거리 감쇠</strong> — 멀리 떨어진 관계일수록 신호가 약해지는 경향입니다. 또 하나는 학습 데이터 분포 문제입니다. 모델은 주로 <strong>짧은 시퀀스 위주</strong>로 학습되기 때문에, 아주 긴 거리의 의존 관계를 다루는 연습이 상대적으로 부족합니다. 그래서 긴 문맥의 중앙처럼 '멀고 묻힌' 자리의 정보를 약하게 다룹니다.</p>
+<h3>2. 각 토큰은 고차원 벡터, 곧 '임베딩'으로 바뀐다</h3>
+<p>토큰이 정해지면, 모델은 각 토큰을 수백~수천 개의 숫자로 이루어진 <strong>벡터(임베딩)</strong>로 변환한다. 이 벡터가 바로 '의미의 좌표'다. 학습 과정에서 모델은 비슷한 맥락에 등장하는 토큰일수록 좌표를 가깝게 배치하도록 조정된다. 그 결과 '왕'과 '여왕', '서울'과 '도쿄'처럼 의미가 닮은 토큰들은 고차원 공간에서 서로 가까운 위치에 자리 잡는다.</p>
+<p>핵심은 이 좌표가 누가 손으로 정한 표가 아니라 <em>학습으로 형성된 연속 공간</em>이라는 점이다. 그래서 좌표끼리 더하고 빼는 연산이 의미를 닮은 결과를 낳기도 한다. 모델에게 단어란 사전의 항목이 아니라 공간 위의 한 점이며, '의미'란 그 점들 사이의 거리와 방향이다.</p>
 
-<h3>3. 18개 프런티어 모델 모두에서 확인됐다</h3>
-<p>이게 한두 모델의 약점이 아니라는 점이 중요합니다. Chroma의 2025년 연구는 GPT, Claude, Gemini 등 18개 프런티어 모델 전부에서 이 저하를 확인했습니다. 즉 context rot는 특정 회사의 버그가 아니라 현재 트랜스포머 기반 모델들이 공유하는 구조적 경향에 가깝습니다.</p>
+<div class="box principle"><span class="lab">핵심</span>AI는 글자가 아니라 토큰을 보고, 의미를 좌표(벡터)로 다룬다. 입력은 토큰으로 쪼개지고, 토큰은 학습된 의미 공간의 좌표가 된다.</div>
 
-<h3>4. 절벽이 아니라 그래디언트다</h3>
-<p>그렇다고 "X 토큰을 넘으면 갑자기 바보가 된다"는 식의 <strong>딱딱한 절벽은 아닙니다.</strong> 저하는 길이에 따라 완만하게 진행되는 <strong>성능 그래디언트</strong>입니다. 이게 오히려 까다로운 점입니다. 명확한 경계선이 있다면 "그 선만 안 넘으면 안전"이라고 할 수 있을 텐데, 완만한 곡선이라 어느 길이에서 어떤 과제가 무너질지 미리 예측하기가 어렵습니다.</p>
-
-<h3>5. 전편의 '어텐션 예산'과 연결</h3>
-<p>이걸 4강의 그림과 이어 봅시다. 어텐션은 토큰마다 한정된 '예산'을 나눠 쓰는 셈입니다. 토큰을 더 넣을 때마다 그 예산을 조금씩 깎아 먹습니다. 그러니 길게 넣을수록 각 정보 조각이 받는 주목은 옅어지고, 특히 묻히기 쉬운 중간이 먼저 흐려집니다. 비싸지는 것(n²)과 둔해지는 것(rot)은 같은 뿌리 — '길이는 공짜가 아니다' — 에서 나온 두 얼굴입니다.</p>
-<div class="box principle"><span class="lab">핵심</span>
-컨텍스트는 길어질수록 회수율이 떨어지고(context rot), 특히 중간 정보를 흘립니다(lost in the middle). 이는 18개 프런티어 모델 전부에서 관측된 구조적 경향이며, 갑자기 무너지는 절벽이 아니라 예측하기 어려운 완만한 그래디언트입니다.
-</div>
+<h3>3. 토큰 수가 비용과 컨텍스트 길이의 '단위'다</h3>
+<p>모델이 한 번에 처리하는 입력·출력의 양은 글자 수나 단어 수가 아니라 <strong>토큰 수</strong>로 측정된다. API 요금도 보통 토큰 단위로 매겨지고, 모델이 한 번에 받을 수 있는 최대 길이(컨텍스트 윈도, 즉 보따리의 크기)도 토큰 단위다. 1강에서 본 '보따리'를 떠올리면, 보따리에 담는 알맹이를 세는 자가 바로 토큰인 셈이다. 따라서 같은 내용을 더 적은 토큰으로 표현할 수 있다면 더 싸고, 더 멀리 본다.</p>
+<p>참고로 컨텍스트 길이는 키우는 것이 불가능하지 않다. 다만 길이를 늘릴수록 비용과 연산이 함께 늘고 효과는 수확 체감(diminishing returns)에 가까워지며, 단순히 윈도만 넓힌다고 되는 게 아니라 그에 맞는 알고리즘적 뒷받침이 필요하다. "토큰은 못 늘린다"가 아니라 "공짜로 무한정 늘지는 않는다"가 정확한 그림이다. 이 이야기는 바로 다음 강에서 본격적으로 다룬다.</p>
 </section>
 
 <section><h2>ANALOGY</h2><div class="h">비유로 이해하기</div>
-<div class="box analogy"><span class="lab">비유</span>
-<p>지나치게 긴 회의록을 떠올려 보세요. 사람들은 보통 회의록의 첫 안건(중요해 보이니까)과 마지막 결론(행동 항목이니까)은 기억합니다. 하지만 중간쯤에 끼어 있던 안건은 "그런 얘기도 했었나?" 하며 묻혀 버립니다. 모델의 lost in the middle도 정확히 이 모양입니다. 길수록 가운데가 묻힙니다.</p>
-<p>게임으로 비유하면 <strong>전장의 안개(fog of war)</strong>와 비슷합니다. 내 시야 가까이(시작·끝)는 또렷하지만, 멀리 떨어진 영역은 흐릿하게만 보여서 거기 무엇이 있었는지 놓치기 쉽습니다. 컨텍스트의 중간은 모델에게 그 흐릿한 안개 속 영역인 셈입니다. 다만 안개처럼 칼같이 시야 경계가 그어지는 게 아니라, 멀어질수록 점점 흐려지는 그라데이션이라는 점이 다릅니다 — 절벽이 아니라 그래디언트.</p>
-</div>
+<div class="box analogy"><span class="lab">비유</span>게임을 떠올려 보자. 게임 안의 모든 것은 결국 좌표와 스탯이다. 캐릭터의 위치는 (x, y, z)라는 숫자 묶음이고, 강함은 공격력·방어력 같은 수치다. 게임 엔진은 "용감한 기사"라는 '말'을 이해하는 게 아니라, 그 캐릭터의 좌표와 스탯이라는 숫자를 처리한다. AI에게 단어도 똑같다. "사랑"이라는 글자가 아니라, 의미 공간 위의 어떤 좌표가 입력된다. 그래서 "왕 − 남자 + 여자 ≈ 여왕" 같은 좌표 연산이 성립하는 것은, 미니맵에서 한 지점에서 일정 방향으로 같은 거리를 이동하면 비슷한 위치에 도착하는 것과 같은 원리다. 단어는 의미라는 맵 위에 찍힌 점이고, AI는 그 맵의 좌표로 사고한다.</div>
 </section>
 
 <section><h2>MYTHS</h2><div class="h">흔한 오개념 부수기</div>
 <table><thead><tr><th>흔히 이렇게 말한다</th><th>정확히는</th></tr></thead><tbody>
-<tr><td class="x">"윈도우 안에만 들어 있으면 모델이 다 본다."</td><td class="o">위치와 길이에 따라 회수율이 다르다. 윈도우 안에 있어도 중간에 묻히면 흘릴 수 있다(lost in the middle).</td></tr>
-<tr><td class="x">"더 크고 좋은 모델이면 이런 저하는 사라진다."</td><td class="o">정도의 차이일 뿐 사라지지 않는다. Chroma 2025에서 18개 프런티어 모델 전부에서 저하가 확인됐다.</td></tr>
-<tr><td class="x">"성능은 어떤 길이에서 절벽처럼 뚝 끊긴다."</td><td class="o">절벽이 아니라 완만한 그래디언트다. 그래서 무너지는 지점을 미리 예측하기 어렵다.</td></tr>
-</tbody></table>
-</section>
+<tr><td class="x">"AI가 글자를 한 자씩 읽는다."</td><td class="o">모델은 글자가 아니라 토큰(subword 덩어리) 단위로 입력을 본다. strawberry 안의 r 개수처럼 글자 수준 정보는 직접 보이지 않을 수 있다.</td></tr>
+<tr><td class="x">"임베딩은 데이터베이스에서 비슷한 단어를 조회하는 것이다."</td><td class="o">임베딩은 학습으로 형성된 연속 좌표 공간이다. 어딘가에 저장된 표를 검색하는 게 아니라, 토큰을 벡터로 '변환'하는 것이다.</td></tr>
+<tr><td class="x">"토큰은 곧 단어다."</td><td class="o">토큰은 단어보다 작거나 클 수 있는 조각(subword)이며, 공백·접두사·접미사를 포함하기도 한다. 한 단어가 여러 토큰으로 쪼개지는 일이 흔하다.</td></tr>
+<tr><td class="x">"한글이든 영어든 같은 내용이면 토큰 수가 같다."</td><td class="o">한글은 일반적으로 더 잘게 쪼개져 같은 의미라도 토큰 수가 더 많아지기 쉽다. 그래서 같은 문장도 언어에 따라 비용·길이가 달라진다.</td></tr>
+</tbody></table></section>
 
 <section><h2>EXPERIMENT</h2><div class="h">생각 실험</div>
 <div class="box experiment"><span class="lab">해보기</span>
-<p>같은 needle 문장(예: "이 보고서의 비밀 코드는 <code>RAVEN-7</code>이다")을 준비합니다. 그리고 동일한 긴 문서를 세 벌 만들되, 이 문장을 각각 <strong>맨 앞 / 정확히 중간 / 맨 끝</strong>에 끼워 넣습니다. 모델에게 "비밀 코드가 뭐였지?"를 똑같이 물어보고, 세 경우의 정답률을 비교하세요.</p>
-<p>대개 앞과 끝은 잘 맞히고, 중간 버전에서 회수율이 떨어지는 걸 관찰하게 됩니다. 한 발 더 나아가, 문서 길이를 2배·4배로 늘려 같은 실험을 반복하면, 길이가 늘수록 전체 정답률이 완만하게 내려가는 'rot 곡선'을 직접 그려 볼 수 있습니다. 어디서 칼같이 끊기는 게 아니라 서서히 내려간다는 점에 주목하세요.</p>
+<p><strong>실험 A — 영어 vs 한글 토큰 수 비교.</strong> "I love coding"과 "나는 코딩을 사랑한다"처럼 같은 뜻의 문장을 영어와 한글로 각각 토크나이저에 넣어 토큰 수를 세어 보자(OpenAI Tokenizer 같은 도구). 거의 매번 한글 쪽 토큰 수가 더 많다. 같은 분량의 대화를 해도 한글이면 더 많은 토큰을 쓰고, 그만큼 비용과 컨텍스트 소모가 크다는 것을 직접 확인하게 된다.</p>
+<p><strong>실험 B — 긴 숫자의 토큰화 관찰.</strong> <code>1234567890</code> 같은 긴 숫자를 넣어 보면, 사람이 보기엔 한 덩어리지만 모델은 이를 <code>123</code>, <code>4567</code>처럼 임의의 조각으로 쪼개 받는 경우가 많다. 모델이 큰 수의 자릿수 계산을 종종 헷갈리는 이유, 그리고 strawberry의 r을 못 세는 이유가 같은 뿌리에서 나온다는 걸 알 수 있다.</p>
 </div>
 </section>
 
 <section><h2>SIMULATOR</h2><div class="h">시뮬레이터 설계</div>
-<div class="box sim"><span class="lab">화면</span>
-<p>위쪽에 <strong>needle 위치 선택</strong> 버튼(앞 / 중간 / 끝)과 <strong>문서 길이 슬라이더</strong>(짧게 ↔ 길게)를 둡니다. 아래에는 회수 정확도를 나타내는 <strong>막대그래프</strong>를 배치합니다.</p>
-<p>사용자가 위치를 '중간'으로 바꾸면 막대가 눈에 띄게 낮아지고, '앞'이나 '끝'이면 높아집니다. 동시에 길이 슬라이더를 오른쪽으로 밀수록 모든 막대가 함께 서서히 내려갑니다 — 단, 한 칸에서 0으로 곤두박질치는 게 아니라 완만하게 기울어지도록 애니메이션을 줘서 '절벽이 아닌 그래디언트'임을 강조합니다. 화면 하단 캡션: "윈도우 안에 있어도 위치·길이에 따라 회수율이 달라집니다. 특히 중간이 위험합니다."</p>
-</div>
+<div class="box sim"><span class="lab">화면</span>두 개의 패널을 나란히 보여준다. <strong>왼쪽: 토큰 분해기.</strong> 입력창에 문장을 치면, 글자가 아니라 토큰 단위로 색깔 블록이 나뉘어 표시되고 각 블록 아래에 토큰 ID와 총 토큰 수가 뜬다. 같은 문장을 영어/한글로 토글하면 토큰 수가 실시간으로 바뀌어 차이가 한눈에 보인다. <strong>오른쪽: 2D 의미 지도.</strong> '왕·여왕·남자·여자·강아지·고양이' 같은 단어들을 고차원 임베딩에서 2차원으로 축소해 점으로 흩뿌려 놓고, 의미가 비슷한 점이 가까이 모여 있음을 보여준다. 한 단어를 클릭하면 가장 가까운 이웃 단어들이 선으로 연결되어, '의미=거리'라는 직관을 손으로 만지듯 체험하게 한다. <em>(실제 동작하는 시뮬레이터: <a href="simulator_02.html">simulator_02.html</a>)</em></div>
 </section>
 
 <section><h2>RECAP</h2><div class="h">한 줄 요약 &amp; 다음 편</div>
-<div class="box summary">
-<p>컨텍스트는 길수록, 특히 한가운데가 흐려집니다. context rot와 lost in the middle은 18개 프런티어 모델 전부에서 보인 구조적 경향이며, 갑작스러운 절벽이 아니라 예측하기 어려운 완만한 그래디언트입니다.</p>
-<p><strong>다음 편 예고(Act 3) —</strong> 길면 비싸고(4강) 둔해진다(5강)면, 해법은 하나로 모입니다. 보따리를 그냥 채우는 게 아니라 <em>설계</em>하는 것. 6강에서는 좋은 컨텍스트가 무엇으로 이뤄지는지, 그 해부학을 들여다봅니다.</p>
-</div>
+<div class="box summary">AI는 글자가 아니라 <strong>토큰</strong>으로 입력을 받고, 그 토큰을 <strong>의미의 좌표(벡터)</strong>로 다룬다. 토큰 수는 곧 비용과 컨텍스트(보따리) 길이의 단위다. — 그렇다면 토큰을 더 넣을수록, 즉 보따리가 커질수록 무슨 일이 벌어질까? 다음 편 「보따리는 공짜가 아니다」에서, 어텐션 n²와 KV 캐시 — 길수록 비싸지고 느려지는 원리를 파헤친다.</div>
 </section>
 
 <section><h2>NOTES</h2><div class="h">강의 노트 — 판서 순서</div>
 <div class="card"><ol class="notes">
-<li>긴 문서 끝에 작은 지시를 숨겨 두고 모델이 놓치는 시연으로 출발한다("윈도우 안에 있는데 왜 못 봤지?").</li>
-<li>needle-in-haystack 개념을 그림으로 그리고, 길이↑ → 회수율↓ = context rot를 곡선으로 판서한다.</li>
-<li>위치별 회수율 차이(앞·끝 ↑, 중간 ↓)를 'lost in the middle'로 명명하고, 원인 두 가지(RoPE 장기 감쇠, 짧은 시퀀스 학습 분포)를 적는다.</li>
-<li>Chroma 2025 — GPT·Claude·Gemini 등 18개 프런티어 모델 전부에서 확인됐음을 강조한다.</li>
-<li>"절벽 아님, 그래디언트임"을 굵게 적고, 그래서 무너지는 지점을 예측하기 어렵다는 함의를 덧붙인다.</li>
-<li>4강의 '어텐션 예산'과 연결해 마무리하고, 다음 편 "보따리를 설계한다"로 다리를 놓는다.</li>
+<li>"strawberry의 r은 몇 개?"를 칠판에 쓰고, 모델이 왜 틀리는지 질문 던지기 — 글자 vs 토큰의 간극을 체감시킨다.</li>
+<li>토크나이저로 문장을 토큰 블록으로 쪼개는 그림을 그리고, subword·BPE·공백 포함을 설명. 한글이 더 잘게 쪼개짐을 강조.</li>
+<li>토큰 → 임베딩 벡터로 가는 화살표를 그리고, '의미가 가까우면 좌표가 가깝다'를 점 그림으로 시각화.</li>
+<li>핵심 박스 판서: "AI는 글자가 아니라 토큰을 보고, 의미를 좌표로 다룬다."</li>
+<li>토큰 수 = 비용 + 컨텍스트(보따리) 길이의 단위임을 1강 보따리와 연결하고, 영어/한글 토큰 수 비교 실험을 라이브로 시연.</li>
+<li>다음 편 떡밥: "토큰이 많아질수록 비싸지고 느려진다 — 어텐션 n²·KV 캐시."</li>
 </ol></div></section>
 
 <footer>메타코딩 「에이전트 개념서」 · 5강</footer>
-</div><!-- LEC_NAV_START -->
-<style id="lec-nav-style">#lec-nav{position:fixed;left:0;right:0;bottom:0;padding:10px 18px;background:rgba(15,15,18,0.93);color:#e8e8e8;display:flex;justify-content:space-between;align-items:center;gap:10px;font:13px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif;backdrop-filter:blur(10px);z-index:99999;border-top:1px solid rgba(255,255,255,0.08)}#lec-nav a{color:#7cb7ff;text-decoration:none;padding:6px 10px;border-radius:6px;transition:background .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:38vw}#lec-nav a:hover{background:rgba(124,183,255,0.14)}#lec-nav .lec-nav-mid{display:flex;gap:6px;align-items:center;flex-shrink:0}#lec-nav .lec-nav-empty{opacity:0.3;padding:6px 10px;white-space:nowrap;max-width:38vw;overflow:hidden;text-overflow:ellipsis}#lec-nav .lec-nav-toc{color:#bbb}#lec-nav .lec-nav-sim{background:rgba(255,200,80,0.18);color:#ffd277}#lec-nav .lec-nav-sim:hover{background:rgba(255,200,80,0.28)}body{padding-bottom:64px !important}</style>
-<nav id="lec-nav">
-<a href="../4/lesson-04.html" title="보따리는 공짜가 아니다 — 어텐션 n²와 KV 캐시">← L04</a>
-<div class="lec-nav-mid">
-<a href="../../index.html" class="lec-nav-toc">목차</a>
-</div>
-<a href="../6/lesson-06.html" title="보따리 안에는 무엇이 들어가나 — 컨텍스트 해부학">L06 →</a>
-</nav>
-<!-- LEC_NAV_END -->
-</body></html>
+</div></body></html>
